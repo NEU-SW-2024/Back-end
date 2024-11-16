@@ -173,6 +173,8 @@ insert into sys_menu values('102',  '菜单管理', '1',   '3', 'menu',       's
 -- insert into sys_menu values('106',  '参数设置', '1',   '7', 'config',     'system/config/index',      '', '', 1, 0, 'C', '0', '0', 'system:config:list',      'edit',          'admin', sysdate(), '', null, '参数设置菜单');
 -- insert into sys_menu values('107',  '通知公告', '1',   '8', 'notice',     'system/notice/index',      '', '', 1, 0, 'C', '0', '0', 'system:notice:list',      'message',       'admin', sysdate(), '', null, '通知公告菜单');
 -- insert into sys_menu values('108',  '日志管理', '1',   '9', 'log',        '',                         '', '', 1, 0, 'M', '0', '0', '',                        'log',           'admin', sysdate(), '', null, '日志管理菜单');
+insert into sys_menu values('6601',  '项目管理', '1',   '8', 'project',     'system/project/index',      '', '', 1, 0, 'C', '0', '0', 'system:project:list',      'message',       'admin', sysdate(), '', null, '项目菜单');
+
 insert into sys_menu values('109',  '在线用户', '2',   '1', 'online',     'monitor/online/index',     '', '', 1, 0, 'C', '0', '0', 'monitor:online:list',     'online',        'admin', sysdate(), '', null, '在线用户菜单');
 insert into sys_menu values('110',  '定时任务', '2',   '2', 'job',        'monitor/job/index',        '', '', 1, 0, 'C', '0', '0', 'monitor:job:list',        'job',           'admin', sysdate(), '', null, '定时任务菜单');
 insert into sys_menu values('111',  '数据监控', '2',   '3', 'druid',      'monitor/druid/index',      '', '', 1, 0, 'C', '0', '0', 'monitor:druid:list',      'druid',         'admin', sysdate(), '', null, '数据监控菜单');
@@ -549,7 +551,7 @@ insert into sys_config values(1, '主框架页-默认皮肤样式名称',     's
 insert into sys_config values(2, '用户管理-账号初始密码',         'sys.user.initPassword',         '123456',        'Y', 'admin', sysdate(), '', null, '初始化密码 123456' );
 insert into sys_config values(3, '主框架页-侧边栏主题',           'sys.index.sideTheme',           'theme-dark',    'Y', 'admin', sysdate(), '', null, '深色主题theme-dark，浅色主题theme-light' );
 insert into sys_config values(4, '账号自助-验证码开关',           'sys.account.captchaEnabled',    'true',          'Y', 'admin', sysdate(), '', null, '是否开启验证码功能（true开启，false关闭）');
-insert into sys_config values(5, '账号自助-是否开启用户注册功能', 'sys.account.registerUser',      'false',         'Y', 'admin', sysdate(), '', null, '是否开启注册用户功能（true开启，false关闭）');
+insert into sys_config values(5, '账号自助-是否开启用户注册功能', 'sys.account.registerUser',      'true',         'Y', 'admin', sysdate(), '', null, '是否开启注册用户功能（true开启，false关闭）');
 insert into sys_config values(6, '用户登录-黑名单列表',           'sys.login.blackIPList',         '',              'Y', 'admin', sysdate(), '', null, '设置登录IP黑名单限制，多个匹配项以;分隔，支持匹配（*通配、网段）');
 
 
@@ -700,3 +702,32 @@ create table gen_table_column (
                                   update_time       datetime                                   comment '更新时间',
                                   primary key (column_id)
 ) engine=innodb auto_increment=1 comment = '代码生成业务表字段';
+-- ----------------------------
+-- 20、项目表
+-- ----------------------------
+drop table if exists sys_project;
+create table sys_project (
+                             project_id      bigint(20)      not null auto_increment    comment '项目ID',
+                             tenant_id       bigint(20)      not null                   comment '租户ID',
+                             name            varchar(100)    not null                   comment '项目名称',
+                             description     varchar(500)    default null               comment '项目描述',
+                             project_content longblob        default null               comment '项目内容',
+                             accessor_id     bigint(20)      default null               comment '评估师ID',
+                             auditor_id      bigint(20)      default null               comment '审核师ID',
+                             project_status  varchar(50)     default null               comment '项目状态',
+                             estimated_time  bigint(20)      default null               comment '项目预计持续时间',
+                             create_by       varchar(64)     default ''                 comment '创建者',
+                             create_time     datetime                                   comment '创建时间',
+                             update_by       varchar(64)     default ''                 comment '更新者',
+                             update_time     datetime                                   comment '更新时间',
+                             remark          varchar(255)    default null               comment '备注',
+                             primary key (project_id)
+) engine=innodb auto_increment=1 comment = '项目表';
+
+-- ----------------------------
+-- 初始化-项目表数据
+-- ----------------------------
+insert into sys_project (project_id, tenant_id, name, description, project_content, accessor_id, auditor_id, project_status, estimated_time, create_by, create_time, update_by, update_time, remark)
+values (1, 1, '若依管理系统', '若依管理系统', null, null, null, null, null, 'admin', sysdate(), '', null, '管理员');
+insert into sys_project (project_id, tenant_id, name, description, project_content, accessor_id, auditor_id, project_status, estimated_time, create_by, create_time, update_by, update_time, remark)
+values (2, 1, '若依代码生成', '若依代码生成', null, null, null, null, null, 'admin', sysdate(), '', null, '管理员');
