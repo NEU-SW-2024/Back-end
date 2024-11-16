@@ -700,3 +700,68 @@ create table gen_table_column (
                                   update_time       datetime                                   comment '更新时间',
                                   primary key (column_id)
 ) engine=innodb auto_increment=1 comment = '代码生成业务表字段';
+
+-- ----------------------------
+-- 20、功能点分数表
+-- ----------------------------
+drop table if exists tb_feat_score;
+create table tb_feat_score(
+                              score_id int not null auto_increment primary key comment '分数表的id',
+                              feat_tag varchar(20) not null comment '功能点标签',
+                              feat_diff int not null comment '复杂度:0低，1中，2高',
+                              score int not null comment '功能点标签+复杂度对应的分数'
+) engine=innodb auto_increment=1 comment = '功能点分数表';
+
+-- ----------------------------
+-- 初始化-IFPUG功能点评估表
+-- ----------------------------
+insert into tb_feat_score(feat_tag,feat_diff,score) values ('EI',0,4),
+                                                           ('EI',1,5),
+                                                           ('EI',2,7),
+                                                           ('EO',0,5),
+                                                           ('EO',1,7),
+                                                           ('EO',2,10),
+                                                           ('EQ',0,4),
+                                                           ('EQ',1,5),
+                                                           ('EQ',2,7),
+                                                           ('ILF',0,7),
+                                                           ('ILF',1,10),
+                                                           ('ILF',2,15),
+                                                           ('EIF',0,5),
+                                                           ('EIF',1,7),
+                                                           ('EIF',2,10);
+
+-- ----------------------------
+-- 21、功能表（用户输入）
+-- ----------------------------
+drop table if exists tb_feat;
+create table tb_feat(
+                         project_id int not null comment '项目ID',
+                         feat_name varchar(20) not null comment '功能点名称',
+                         feat_descr varchar(200) not null comment '功能点描述',
+                         score_id int not null comment '分数表中对应的id',
+                         foreign key (score_id) references tb_feat_score(score_id)
+) engine=innodb auto_increment=1 comment = '功能表';
+
+-- ----------------------------
+-- 22、度量表
+-- ----------------------------
+drop table if exists tb_measure;
+create table tb_measure(
+                           project_id int not null comment '项目ID',
+                           measure_name varchar(20) not null comment '度量名称',
+                           GSC int not null comment '度量分数0-5'
+)  engine=innodb auto_increment=1 comment = '度量表';
+
+-- ----------------------------
+-- 23、评估结果表
+-- ----------------------------
+drop table if exists tb_measure_res;
+create table tb_measure_res(
+                               project_id int not null comment '项目ID',
+                               UPF int not null comment '功能点分数总和',
+                               VAF float not null comment '调整系数',
+                               AFP float not null comment '调整后的功能点数',
+                               GSC_total int not null comment 'GSC总和',
+                               status int not null comment '项目状态：0待评估1待审核2完成'
+) engine=innodb auto_increment=1 comment = '评估结果表';
