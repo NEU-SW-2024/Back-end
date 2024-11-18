@@ -124,8 +124,9 @@ create table sys_role (
 -- 初始化-角色信息表数据
 -- ----------------------------
 insert into sys_role values('1', '超级管理员',  'admin',  1, 1, 1, 1, '0', '0', 'admin', sysdate(), '', null, '超级管理员');
-insert into sys_role values('2', '普通角色',    'common', 2, 2, 1, 1, '0', '0', 'admin', sysdate(), '', null, '普通角色');
-
+insert into sys_role values('2', '租户管理员',    'tenant', 2, 2, 1, 1, '0', '0', 'admin', sysdate(), '', null, '租户管理员');
+insert into sys_role values('3', '项目评估师',    'accessor', 3, 3, 1, 1, '0', '0', 'admin', sysdate(), '', null, '项目评估师');
+insert into sys_role values('4', '项目审核员',    'auditor', 4, 4, 1, 1, '0', '0', 'admin', sysdate(), '', null, '项目审核员');
 
 -- ----------------------------
 -- 5、菜单权限表
@@ -171,7 +172,7 @@ insert into sys_menu values('102',  '菜单管理', '1',   '3', 'menu',       's
 -- insert into sys_menu values('104',  '岗位管理', '1',   '5', 'post',       'system/post/index',        '', '', 1, 0, 'C', '0', '0', 'system:post:list',        'post',          'admin', sysdate(), '', null, '岗位管理菜单');
 -- insert into sys_menu values('105',  '字典管理', '1',   '6', 'dict',       'system/dict/index',        '', '', 1, 0, 'C', '0', '0', 'system:dict:list',        'dict',          'admin', sysdate(), '', null, '字典管理菜单');
 -- insert into sys_menu values('106',  '参数设置', '1',   '7', 'config',     'system/config/index',      '', '', 1, 0, 'C', '0', '0', 'system:config:list',      'edit',          'admin', sysdate(), '', null, '参数设置菜单');
--- insert into sys_menu values('107',  '通知公告', '1',   '8', 'notice',     'system/notice/index',      '', '', 1, 0, 'C', '0', '0', 'system:notice:list',      'message',       'admin', sysdate(), '', null, '通知公告菜单');
+insert into sys_menu values('107',  '通知公告', '1',   '8', 'notice',     'system/notice/index',      '', '', 1, 0, 'C', '0', '0', 'system:notice:list',      'message',       'admin', sysdate(), '', null, '通知公告菜单');
 -- insert into sys_menu values('108',  '日志管理', '1',   '9', 'log',        '',                         '', '', 1, 0, 'M', '0', '0', '',                        'log',           'admin', sysdate(), '', null, '日志管理菜单');
 insert into sys_menu values('6601',  '项目管理', '1',   '8', 'project',     'system/project/index',      '', '', 1, 0, 'C', '0', '0', 'system:project:list',      'message',       'admin', sysdate(), '', null, '项目菜单');
 
@@ -261,7 +262,11 @@ insert into sys_menu values('1057', '生成删除', '116', '3', '#', '', '', '',
 insert into sys_menu values('1058', '导入代码', '116', '4', '#', '', '', '', 1, 0, 'F', '0', '0', 'tool:gen:import',            '#', 'admin', sysdate(), '', null, '');
 insert into sys_menu values('1059', '预览代码', '116', '5', '#', '', '', '', 1, 0, 'F', '0', '0', 'tool:gen:preview',           '#', 'admin', sysdate(), '', null, '');
 insert into sys_menu values('1060', '生成代码', '116', '6', '#', '', '', '', 1, 0, 'F', '0', '0', 'tool:gen:code',              '#', 'admin', sysdate(), '', null, '');
-
+-- 项目管理按钮
+insert into sys_menu values('1061', '项目查询', '6601', '1', '#', '', '', '', 1, 0, 'F', '0', '0', 'system:project:query',       '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1062', '项目新增', '6601', '2', '#', '', '', '', 1, 0, 'F', '0', '0', 'system:project:add',         '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1063', '项目修改', '6601', '3', '#', '', '', '', 1, 0, 'F', '0', '0', 'system:project:edit',        '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1064', '项目删除', '6601', '4', '#', '', '', '', 1, 0, 'F', '0', '0', 'system:project:remove',      '#', 'admin', sysdate(), '', null, '');
 
 -- ----------------------------
 -- 6、用户和角色关联表  用户N-1角色
@@ -291,7 +296,7 @@ create table sys_role_menu (
 ) engine=innodb comment = '角色和菜单关联表';
 
 -- ----------------------------
--- 初始化-角色和菜单关联表数据
+-- 初始化-角色和菜单关联表数据 这里管理用户权限
 -- ----------------------------
 insert into sys_role_menu values ('2', '1');
 insert into sys_role_menu values ('2', '2');
@@ -378,6 +383,13 @@ insert into sys_role_menu values ('2', '1057');
 insert into sys_role_menu values ('2', '1058');
 insert into sys_role_menu values ('2', '1059');
 insert into sys_role_menu values ('2', '1060');
+
+insert into sys_role_menu values ('2', '6601');
+insert into sys_role_menu values ('2', '1061');
+insert into sys_role_menu values ('2', '1062');
+insert into sys_role_menu values ('2', '1063');
+insert into sys_role_menu values ('2', '1064');
+
 
 -- ----------------------------
 -- 8、角色和部门关联表  角色1-N部门
