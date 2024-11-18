@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.accessor.mapper.MeasureResMapper">
+    <resultMap type="MeasureRes" id="MeasureResResult">
+        <result property="projectId" column="project_id"/>
+        <result property="UPF" column="UPF"/>
+        <result property="VAF" column="VAF"/>
+        <result property="AFP" column="AFP"/>
+        <result property="GSCTotal" column="GSC_total"/>
+        <result property="status" column="status"/>
+    </resultMap>
+    <insert id="insert">
+        insert into tb_measure_res(project_id,UPF,VAF,AFP,GSC_total,status,cf)
+        values (#{projectId},#{UPF},#{VAF},#{AFP},#{GSCTotal},#{status},#{cf});
+    </insert>
+</mapper>

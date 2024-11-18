@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.accessor.mapper.FeatMapper">
+    <resultMap id="Feat" type="Feat">
+        <result property="projectId" column="project_id"/>
+        <result property="scoreId" column="score_id"/>
+        <result property="featDescr" column="feat_descr"/>
+        <result property="featName" column="feat_name"/>
+    </resultMap>
+    <insert id="insert">
+        insert into tb_feat(project_id,feat_name,feat_descr,score_id)
+        values(#{projectId},#{featName},#{featDescr},#{scoreId})
+    </insert>
+</mapper>

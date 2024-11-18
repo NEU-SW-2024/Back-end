@@ -1,7 +1,6 @@
 package com.ruoyi.project.accessor.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.ruoyi.project.accessor.entity.*;
+import com.ruoyi.project.accessor.domain.*;
 import com.ruoyi.project.accessor.mapper.FeatMapper;
 import com.ruoyi.project.accessor.mapper.FeatScoreMapper;
 import com.ruoyi.project.accessor.mapper.MeasureMapper;
@@ -30,11 +29,9 @@ public class AccessorServiceImpl implements AccessorService {
     public Result saveFunc(List<FeatDAO> featDAOS) {
         for (FeatDAO featDAO : featDAOS) {
             String tag = featDAO.getTag();
+            System.out.println(tag);
             Integer diff = featDAO.getDiff();
-            QueryWrapper<FeatScore> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("feat_tag", tag).eq("feat_diff", diff);
-            FeatScore featScore = featScoreMapper.selectOne(queryWrapper);
-            Integer scoreId = featScore.getScoreId();
+            Integer scoreId = featScoreMapper.selectScoreId(tag,diff);
             Feat feat = new Feat();
             feat.setProjectId(featDAO.getProjectId());
             feat.setFeatName(featDAO.getFuncName());
@@ -59,9 +56,7 @@ public class AccessorServiceImpl implements AccessorService {
      */
     @Override
     public Result getFunc(Integer projectId) {
-        QueryWrapper<Feat> featQueryWrapper = new QueryWrapper<>();
-        featQueryWrapper.eq("project_id",projectId);
-        List<Feat> feats = featMapper.selectList(featQueryWrapper);
+        List<Feat> feats = featMapper.selectByProjectId(projectId);
         return Result.success(feats);
     }
 
@@ -69,7 +64,7 @@ public class AccessorServiceImpl implements AccessorService {
      * 保存度量 并计算所有结果
      */
     @Override
-    public Result saveMeasure(List<Measure> measures) {
+    public Result saveMeasure(Float cf, List<Measure> measures) {
         Integer projectId = measures.get(0).getProjectId();
         int GSCsum = 0;
         for (Measure measure : measures) {
@@ -86,30 +81,32 @@ public class AccessorServiceImpl implements AccessorService {
         measureRes.setGSCTotal(GSCsum);
         measureRes.setProjectId(projectId);
         measureRes.setUPF(UFPsum);
+        measureRes.setCf(cf);
         measureResMapper.insert(measureRes);
         return Result.success(measureRes);
     }
 
     @Override
     public Result getAll(Integer projectId) {
-        // TODO
-        return null;
+        List<Feat> feats = featMapper.selectByProjectId(projectId);
+        List<MeasureRes> measureRes = measureResMapper.selectByProjectId(projectId);
+        List<Measure> measures = measureMapper.selectByProjectId(projectId);
+        AllResult allResult = new AllResult();
+        allResult.setMeasures(measures);
+        allResult.setFeats(feats);
+        allResult.setMeasureRes(measureRes);
+        return Result.success(allResult);
     }
 
     /**
      * 计算UFP总和
      */
     private int calculateUFPSum(Integer projectId){
-        QueryWrapper<Feat> featQueryWrapper = new QueryWrapper<>();
-        featQueryWrapper.eq("project_id",projectId);
-        List<Feat> feats = featMapper.selectList(featQueryWrapper);
-        List<Integer> scoreIds = new ArrayList<>();
-        for (Feat feat : feats) {
-            scoreIds.add(feat.getScoreId());
+        List<Integer> scoreIds = featMapper.selectList(projectId);
+        List<FeatScore> featScores = new ArrayList<>();
+        for (Integer scoreId : scoreIds) {
+            featScores.add(featScoreMapper.selectByScoreId(scoreId));
         }
-        QueryWrapper<FeatScore> featScoreQueryWrapper = new QueryWrapper<>();
-        featScoreQueryWrapper.in("score_id",scoreIds);
-        List<FeatScore> featScores = featScoreMapper.selectList(featScoreQueryWrapper);
         int res = 0;
         for (FeatScore featScore : featScores) {
             res+=featScore.getScore();

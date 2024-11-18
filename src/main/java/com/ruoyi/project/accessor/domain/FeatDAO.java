@@ -1,4 +1,4 @@
-package com.ruoyi.project.accessor.entity;
+package com.ruoyi.project.accessor.domain;
 
 import lombok.Data;
 

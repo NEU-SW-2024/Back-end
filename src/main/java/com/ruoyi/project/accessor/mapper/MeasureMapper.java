@@ -1,7 +1,13 @@
 package com.ruoyi.project.accessor.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ruoyi.project.accessor.entity.Measure;
+import com.ruoyi.project.accessor.domain.Measure;
+import org.apache.ibatis.annotations.Select;
 
-public interface MeasureMapper extends BaseMapper<Measure> {
+import java.util.List;
+
+public interface MeasureMapper {
+    void insert(Measure measure);
+
+    @Select("select * from vue.tb_measure where project_id=#{projectId}")
+    List<Measure> selectByProjectId(Integer projectId);
 }

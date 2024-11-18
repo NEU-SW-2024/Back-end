@@ -93,6 +93,7 @@ public class CaptchaController
 
         ajax.put("uuid", uuid);
         ajax.put("img", Base64.encode(os.toByteArray()));
+        System.out.println("uuid:"+uuid);
         return ajax;
     }
 }
