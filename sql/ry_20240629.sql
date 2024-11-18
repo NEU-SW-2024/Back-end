@@ -124,9 +124,9 @@ create table sys_role (
 -- 初始化-角色信息表数据
 -- ----------------------------
 insert into sys_role values('1', '超级管理员',  'admin',  1, 1, 1, 1, '0', '0', 'admin', sysdate(), '', null, '超级管理员');
-insert into sys_role values('2', '租户管理员',    'tenant', 2, 2, 1, 1, '0', '0', 'admin', sysdate(), '', null, '租户管理员');
-insert into sys_role values('3', '项目评估师',    'accessor', 3, 3, 1, 1, '0', '0', 'admin', sysdate(), '', null, '项目评估师');
-insert into sys_role values('4', '项目审核员',    'auditor', 4, 4, 1, 1, '0', '0', 'admin', sysdate(), '', null, '项目审核员');
+insert into sys_role values('2', '租户管理员',    'tenant', 2, 1, 1, 1, '0', '0', 'admin', sysdate(), '', null, '租户管理员');
+insert into sys_role values('3', '项目评估师',    'accessor', 3, 1, 1, 1, '0', '0', 'admin', sysdate(), '', null, '项目评估师');
+insert into sys_role values('4', '项目审核员',    'auditor', 4, 1, 1, 1, '0', '0', 'admin', sysdate(), '', null, '项目审核员');
 
 -- ----------------------------
 -- 5、菜单权限表

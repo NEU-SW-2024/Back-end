@@ -75,7 +75,13 @@ public class SysUserServiceImpl implements ISysUserService
     @DataScope(deptAlias = "d", userAlias = "u")
     public List<SysUser> selectUserList(SysUser user)
     {
-        return userMapper.selectUserList(user);
+        List<SysUser> list = userMapper.selectUserList(user);
+//        判断是不是admin，如果是admin,就返回所有的用户信息
+        if (SecurityUtils.isAdmin(user.getUserId())) {
+            return list;
+        }
+//        否则就返回所有由当前用户创建的用户信息和当前用户的信息
+        return list.stream().filter(u -> u.getCreateBy().equals(SecurityUtils.getUsername()) || u.getUserName().equals(SecurityUtils.getUsername())).collect(Collectors.toList());
     }
 
     /**
