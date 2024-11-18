@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.accessor.mapper.MeasureResMapper">
+    <resultMap type="MeasureRes" id="MeasureResResult">
+        <result property="projectId" column="project_id"/>
+        <result property="UPF" column="UPF"/>
+        <result property="VAF" column="VAF"/>
+        <result property="DFP" column="DFP"/>
+        <result property="GSC" column="GSC"/>
+        <result property="status" column="status"/>
+        <result property="cf" column="cf"/>
+        <result property="S" column="S"/>
+    </resultMap>
+    <insert id="insert">
+        insert into mysql.tb_measure_res(project_id,UPF,VAF,DFP,GSC,status,cf,S)
+        values (#{projectId},#{UPF},#{VAF},#{DFP},#{GSC},#{status},#{cf},#{S});
+    </insert>
+</mapper>
