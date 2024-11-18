@@ -7,12 +7,14 @@
         <result property="projectId" column="project_id"/>
         <result property="UPF" column="UPF"/>
         <result property="VAF" column="VAF"/>
-        <result property="AFP" column="AFP"/>
-        <result property="GSCTotal" column="GSC_total"/>
+        <result property="DFP" column="DFP"/>
+        <result property="GSC" column="GSC"/>
         <result property="status" column="status"/>
+        <result property="cf" column="cf"/>
+        <result property="S" column="S"/>
     </resultMap>
     <insert id="insert">
-        insert into tb_measure_res(project_id,UPF,VAF,AFP,GSC_total,status,cf)
-        values (#{projectId},#{UPF},#{VAF},#{AFP},#{GSCTotal},#{status},#{cf});
+        insert into tb_measure_res(project_id,UPF,VAF,DFP,GSC,status,cf,S)
+        values (#{projectId},#{UPF},#{VAF},#{DFP},#{GSC},#{status},#{cf},#{S});
     </insert>
 </mapper>

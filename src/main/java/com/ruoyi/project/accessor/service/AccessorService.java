@@ -1,8 +1,6 @@
 package com.ruoyi.project.accessor.service;
 
-import com.ruoyi.project.accessor.domain.FeatDAO;
-import com.ruoyi.project.accessor.domain.Measure;
-import com.ruoyi.project.accessor.domain.Result;
+import com.ruoyi.project.accessor.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,4 +16,14 @@ public interface AccessorService {
     Result saveMeasure(Float cf, List<Measure> measures);
 
     Result getAll(Integer projectId);
+
+//    Result updateFunc(List<FeatDAO> featDAOS);
+//
+//    Result deleteFunc(DeleteFuncRequest request);
+
+//    Result deleteMeasure(String measureName);
+//
+//    Result updateMeasures(SaveMeasureRequest saveMeasureRequest);
+//
+//    Feat getFeatBySoreId(FeatDAO featDAO);
 }

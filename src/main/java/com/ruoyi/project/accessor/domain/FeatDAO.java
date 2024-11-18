@@ -9,6 +9,7 @@ import lombok.Data;
 public class FeatDAO {
     // 项目ID
     private Integer projectId;
+
     // 功能点名称
     public String funcName;
     // 功能点描述

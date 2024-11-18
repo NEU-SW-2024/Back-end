@@ -6,5 +6,5 @@ import lombok.Data;
 public class Measure {
     private Integer projectId;
     private String measureName;
-    private Integer GSC;
+    private Integer DI;
 }

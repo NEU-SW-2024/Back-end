@@ -1,12 +1,9 @@
 package com.ruoyi.project.accessor.controller;
 
-import com.ruoyi.project.accessor.domain.FeatDAO;
-import com.ruoyi.project.accessor.domain.Measure;
-import com.ruoyi.project.accessor.domain.Result;
+import com.ruoyi.project.accessor.domain.*;
 import com.ruoyi.project.accessor.service.AccessorService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -20,6 +17,24 @@ public class AccessorController {
 
     @Resource
     private AccessorService accessorService;
+
+//    /**
+//     * 批量更新功能点
+//     */
+//    @PostMapping("/updateFunc")
+//    public Result updateFunc(@RequestBody List<FeatDAO> featDAOS){
+//        return accessorService.updateFunc(featDAOS);
+//    }
+//
+//    /**
+//     * 删除功能点（非批量）
+//     * @param deleteRequest
+//     * @return
+//     */
+//    @PostMapping("/deleteFunc")
+//    public Result deleteFunc(@RequestBody DeleteFuncRequest deleteRequest){
+//        return accessorService.deleteFunc(deleteRequest);
+//    }
 
     /**
      * 录入功能点 有多个功能点记录
