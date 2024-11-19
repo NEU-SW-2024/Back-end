@@ -173,6 +173,8 @@ insert into sys_menu values('102',  '菜单管理', '1',   '3', 'menu',       's
 -- insert into sys_menu values('106',  '参数设置', '1',   '7', 'config',     'system/config/index',      '', '', 1, 0, 'C', '0', '0', 'system:config:list',      'edit',          'admin', sysdate(), '', null, '参数设置菜单');
 -- insert into sys_menu values('107',  '通知公告', '1',   '8', 'notice',     'system/notice/index',      '', '', 1, 0, 'C', '0', '0', 'system:notice:list',      'message',       'admin', sysdate(), '', null, '通知公告菜单');
 -- insert into sys_menu values('108',  '日志管理', '1',   '9', 'log',        '',                         '', '', 1, 0, 'M', '0', '0', '',                        'log',           'admin', sysdate(), '', null, '日志管理菜单');
+insert into sys_menu values('6601',  '项目管理', '1',   '8', 'project',     'system/project/index',      '', '', 1, 0, 'C', '0', '0', 'system:project:list',      'message',       'admin', sysdate(), '', null, '项目菜单');
+
 insert into sys_menu values('109',  '在线用户', '2',   '1', 'online',     'monitor/online/index',     '', '', 1, 0, 'C', '0', '0', 'monitor:online:list',     'online',        'admin', sysdate(), '', null, '在线用户菜单');
 insert into sys_menu values('110',  '定时任务', '2',   '2', 'job',        'monitor/job/index',        '', '', 1, 0, 'C', '0', '0', 'monitor:job:list',        'job',           'admin', sysdate(), '', null, '定时任务菜单');
 insert into sys_menu values('111',  '数据监控', '2',   '3', 'druid',      'monitor/druid/index',      '', '', 1, 0, 'C', '0', '0', 'monitor:druid:list',      'druid',         'admin', sysdate(), '', null, '数据监控菜单');
@@ -549,7 +551,7 @@ insert into sys_config values(1, '主框架页-默认皮肤样式名称',     's
 insert into sys_config values(2, '用户管理-账号初始密码',         'sys.user.initPassword',         '123456',        'Y', 'admin', sysdate(), '', null, '初始化密码 123456' );
 insert into sys_config values(3, '主框架页-侧边栏主题',           'sys.index.sideTheme',           'theme-dark',    'Y', 'admin', sysdate(), '', null, '深色主题theme-dark，浅色主题theme-light' );
 insert into sys_config values(4, '账号自助-验证码开关',           'sys.account.captchaEnabled',    'true',          'Y', 'admin', sysdate(), '', null, '是否开启验证码功能（true开启，false关闭）');
-insert into sys_config values(5, '账号自助-是否开启用户注册功能', 'sys.account.registerUser',      'false',         'Y', 'admin', sysdate(), '', null, '是否开启注册用户功能（true开启，false关闭）');
+insert into sys_config values(5, '账号自助-是否开启用户注册功能', 'sys.account.registerUser',      'true',         'Y', 'admin', sysdate(), '', null, '是否开启注册用户功能（true开启，false关闭）');
 insert into sys_config values(6, '用户登录-黑名单列表',           'sys.login.blackIPList',         '',              'Y', 'admin', sysdate(), '', null, '设置登录IP黑名单限制，多个匹配项以;分隔，支持匹配（*通配、网段）');
 
 
@@ -700,41 +702,30 @@ create table gen_table_column (
                                   update_time       datetime                                   comment '更新时间',
                                   primary key (column_id)
 ) engine=innodb auto_increment=1 comment = '代码生成业务表字段';
-
-
 -- ----------------------------
--- 20、评估结果表
+-- 20、项目表
 -- ----------------------------
-drop table if exists assessment_results;
-create table assessment_results (
-                                    res_id                    bigint(20)      not null auto_increment    comment '评估结果ID',
-                                    project_id                bigint(20)      not null                   comment '关联项目的ID，标识当前评估结果所属的项目',
-                                    std_id                    bigint(20)      not null                   comment '关联评估标准的ID，标识当前评估结果所属的标准',
-                                    total_cost                decimal(12,2)   default 0.00               comment '项目评估的总造价，包含人工成本、风险成本、质量成本等',
-                                    labor_cost                decimal(12,2)   default 0.00               comment '人工成本，用于项目开发的直接人力费用',
-                                    risk_cost                 decimal(12,2)   default 0.00               comment '风险附加成本，根据风险因子计算得出的额外成本',
-                                    quality_cost              decimal(12,2)   default 0.00               comment '质量附加成本，根据质量因子计算得出的额外成本',
-                                    dev_service_cost          decimal(12,2)   default 0.00               comment '开发服务费用，开发工具和外包服务相关的直接费用',
-                                    adjusted_dev_service_cost decimal(12,2)   default 0.00               comment '调整后开发服务费用，考虑优化或额外因素调整的开发费用',
-                                    res_sugg                  varchar(500)    default ''                 comment '评估结果的建议说明，例如优化成本或资源分配的建议',
-                                    created_at                datetime                                   comment '评估结果记录的创建时间',
-                                    updated_at                datetime                                   comment '最近一次更新评估结果的时间',
-                                    primary key (res_id)
-) engine=innodb auto_increment=1000 comment = '评估结果表';
-
--- ----------------------------
--- 初始化-评估结果表数据
--- ----------------------------
-insert into assessment_results
-(project_id, std_id, total_cost, labor_cost, risk_cost, quality_cost, dev_service_cost, adjusted_dev_service_cost, res_sugg, created_at, updated_at)
-values
-    (1, 1000, 100000.00, 70000.00, 10000.00, 5000.00, 5000.00, 4500.00, '建议优化人力资源配置，减少风险成本', now(), now()),
-    (2, 1001, 80000.00, 50000.00, 8000.00, 4000.00, 6000.00, 5500.00, '考虑增加团队培训以提升质量', now(), now()),
-    (3, 1002, 120000.00, 80000.00, 12000.00, 6000.00, 10000.00, 9000.00, '建议使用自动化工具降低开发服务费用', now(), now()),
-    (4, 1003, 95000.00, 60000.00, 9000.00, 5000.00, 7000.00, 6500.00, '优化供应商选择以减少成本', now(), now());
+drop table if exists sys_project;
+create table sys_project (
+                             project_id      bigint(20)      not null auto_increment    comment '项目ID',
+                             tenant_id       bigint(20)      not null                   comment '租户ID',
+                             name            varchar(100)    not null                   comment '项目名称',
+                             description     varchar(500)    default null               comment '项目描述',
+                             project_content longblob        default null               comment '项目内容',
+                             accessor_id     bigint(20)      default null               comment '评估师ID',
+                             auditor_id      bigint(20)      default null               comment '审核师ID',
+                             project_status  varchar(50)     default null               comment '项目状态',
+                             estimated_time  bigint(20)      default null               comment '项目预计持续时间',
+                             create_by       varchar(64)     default ''                 comment '创建者',
+                             create_time     datetime                                   comment '创建时间',
+                             update_by       varchar(64)     default ''                 comment '更新者',
+                             update_time     datetime                                   comment '更新时间',
+                             remark          varchar(255)    default null               comment '备注',
+                             primary key (project_id)
+) engine=innodb auto_increment=1 comment = '项目表';
 
 -- ----------------------------
--- 1、造价标准表
+-- 21、造价标准表
 -- ----------------------------
 drop table if exists assessment_standard;
 create table assessment_standard (
@@ -766,3 +757,63 @@ VALUES
     ('企业级应用开发规范', '规定标准', 1, 9.0, 1.4, 1.2, 1.3, 1.4, 21.75, 3000.00, 'admin', NOW(), NOW()),
     ('移动应用开发标准', '团队标准', 1, 6.5, 1.0, 1.0, 1.0, 1.1, 21.75, 1000.00, 'admin', NOW(), NOW()),
     ('高可用系统开发标准', '规定标准', 1, 10.0, 1.4, 1.3, 1.4, 1.5, 21.75, 4000.00, 'admin', NOW(), NOW());
+
+-- ----------------------------
+-- 21、造价标准表
+-- ----------------------------
+drop table if exists assessment_standard;
+create table assessment_standard (
+                                     std_id              bigint(20)      not null auto_increment    comment '标准ID',
+                                     std_name            varchar(100)    default ''                 comment '标准名称',
+                                     std_type            varchar(50)     default ''                 comment '标准类型（地区标准、团队标准、规定标准）',
+                                     std_status          tinyint(1)      default 1                  comment '标准状态（1启用 0停用）',
+                                     pdr_value           decimal(10,2)   default 0.00              comment '标准PDR取值',
+                                     rsk_factor          decimal(3,1)    default 1.0              comment '风险因子',
+                                     quality_factor      decimal(3,1)    default 1.0              comment '质量因子',
+                                     swf                 decimal(3,1)    default 1.0              comment '软件复杂度因子',
+                                     rdf                 decimal(3,1)    default 1.0              comment '开发复杂度因子',
+                                     conversion_factor   decimal(5,2)    default 21.75            comment '人月折算系数',
+                                     cost_rate           decimal(10,2)   default 10000            comment '软件开发基准人月费率(月工资)',
+                                     dnc                 decimal(10,2)   default 0.00             comment '非人力成本',
+                                     created_by          varchar(64)     default ''               comment '创建者',
+                                     created_at          datetime                                comment '创建时间',
+                                     updated_at          datetime                                comment '更新时间',
+                                     primary key (std_id)
+) engine=innodb auto_increment=1000 comment = '造价标准表';
+
+-- ----------------------------
+-- 初始化-造价标准表数据
+-- ----------------------------
+INSERT INTO assessment_standard
+(std_name, std_type, std_status, pdr_value, rsk_factor, quality_factor, swf, rdf, conversion_factor, dnc, created_by, created_at, updated_at)
+VALUES
+    ('北京地区标准开发规范', '地区标准', 1, 8.5, 1.2, 1.1, 1.2, 1.3, 21.75, 2000.00, 'admin', NOW(), NOW()),
+    ('敏捷开发团队标准', '团队标准', 1, 7.5, 1.0, 1.0, 1.1, 1.2, 21.75, 1500.00, 'admin', NOW(), NOW()),
+    ('企业级应用开发规范', '规定标准', 1, 9.0, 1.4, 1.2, 1.3, 1.4, 21.75, 3000.00, 'admin', NOW(), NOW()),
+    ('移动应用开发标准', '团队标准', 1, 6.5, 1.0, 1.0, 1.0, 1.1, 21.75, 1000.00, 'admin', NOW(), NOW()),
+    ('高可用系统开发标准', '规定标准', 1, 10.0, 1.4, 1.3, 1.4, 1.5, 21.75, 4000.00, 'admin', NOW(), NOW());
+
+-- ----------------------------
+-- 22、评估结果表
+-- ----------------------------
+drop table if exists assessment_results;
+create table assessment_results (
+                                    res_id                    bigint(20)      not null auto_increment    comment '评估结果ID',
+                                    project_id                bigint(20)      not null                   comment '关联项目的ID，标识当前评估结果所属的项目',
+                                    std_id                    bigint(20)      not null                   comment '关联评估标准的ID，标识当前评估结果所属的标准',
+                                    project_SDC               decimal(12,2)   default 0.00               comment '项目的开发服务费用',
+                                    project_ESDC              decimal(12,2)   default 0.00               comment '项目调整后的开发服务费用',
+                                    created_at                datetime                                   comment '评估结果记录的创建时间',
+                                    updated_at                datetime                                   comment '最近一次更新评估结果的时间',
+                                    primary key (res_id)
+) engine=innodb auto_increment=1000 comment = '评估结果表';
+
+-- ----------------------------
+-- 初始化-项目表数据
+-- ----------------------------
+insert into sys_project (project_id, tenant_id, name, description, project_content, accessor_id, auditor_id, project_status, estimated_time, create_by, create_time, update_by, update_time, remark)
+values (1, 1, '若依管理系统', '若依管理系统', null, null, null, null, null, 'admin', sysdate(), '', null, '管理员');
+insert into sys_project (project_id, tenant_id, name, description, project_content, accessor_id, auditor_id, project_status, estimated_time, create_by, create_time, update_by, update_time, remark)
+values (2, 1, '若依代码生成', '若依代码生成', null, null, null, null, null, 'admin', sysdate(), '', null, '管理员');
+
+

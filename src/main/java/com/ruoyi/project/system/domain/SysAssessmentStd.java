@@ -47,6 +47,9 @@ public class SysAssessmentStd extends BaseEntity
     /** 人月折算系数 */
     private Double conversionFactor;
 
+    /** 软件开发基准人月费率 **/
+    private double costRate;
+
     /** 非人力成本 */
     private Double dnc;
 
@@ -166,6 +169,16 @@ public class SysAssessmentStd extends BaseEntity
         this.conversionFactor = conversionFactor;
     }
 
+    @NotNull(message = "软件开发基准人月费率不能为空")
+    @DecimalMin(value = "0.0", message = "软件开发基准人月费率必须大于0")
+    public double getCostRate() {
+        return costRate;
+    }
+
+    public void setCostRate(double costRate) {
+        this.costRate = costRate;
+    }
+
     @NotNull(message = "非人力成本不能为空")
     @DecimalMin(value = "0.0", message = "非人力成本必须大于等于0")
     public Double getDnc()
@@ -191,6 +204,7 @@ public class SysAssessmentStd extends BaseEntity
                 .append("swf", getSwf())
                 .append("rdf", getRdf())
                 .append("conversionFactor", getConversionFactor())
+                .append("costRate", getCostRate())
                 .append("dnc", getDnc())
                 .append("createBy", getCreateBy())
                 .append("createTime", getCreateTime())

@@ -15,6 +15,7 @@
         <result property="swf" column="swf"/>
         <result property="rdf" column="rdf"/>
         <result property="conversionFactor" column="conversion_factor"/>
+        <result property="costRate" column="cost_rate"/>
         <result property="dnc" column="dnc"/>
     </resultMap>
 
@@ -31,9 +32,9 @@
 
     <insert id="insertStandard" useGeneratedKeys="true" keyProperty="stdId">
         INSERT INTO assessment_standard (
-            std_name, std_type, std_status, pdr_value, rsk_factor, quality_factor, swf, rdf, conversion_factor, dnc
+            std_name, std_type, std_status, pdr_value, rsk_factor, quality_factor, swf, rdf, conversion_factor, cost_rate, dnc
         ) VALUES (
-                     #{stdName}, #{stdType}, #{stdStatus}, #{pdrValue}, #{rskFactor}, #{qualityFactor}, #{swf}, #{rdf}, #{conversionFactor}, #{dnc}
+                     #{stdName}, #{stdType}, #{stdStatus}, #{pdrValue}, #{rskFactor}, #{qualityFactor}, #{swf}, #{rdf}, #{conversionFactor}, #{costRate}, #{dnc}
                  )
     </insert>
 
@@ -42,7 +43,7 @@
         SET
             std_name = #{stdName}, std_type = #{stdType}, std_status = #{stdStatus}, pdr_value = #{pdrValue},
             rsk_factor = #{rskFactor}, quality_factor = #{qualityFactor}, swf = #{swf}, rdf = #{rdf},
-            conversion_factor = #{conversionFactor}, dnc = #{dnc}
+            conversion_factor = #{conversionFactor}, cost_rate = #{costRate}, dnc = #{dnc}
         WHERE std_id = #{stdId}
     </update>
 
