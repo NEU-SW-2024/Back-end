@@ -817,3 +817,31 @@ insert into sys_project (project_id, tenant_id, name, description, project_conte
 values (2, 1, '若依代码生成', '若依代码生成', null, null, null, null, null, 'admin', sysdate(), '', null, '管理员');
 
 
+-- 20、项目表
+-- ----------------------------
+drop table if exists sys_project;
+create table sys_project (
+                             project_id      bigint(20)      not null auto_increment    comment '项目ID',
+                             tenant_id       bigint(20)      not null                   comment '租户ID',
+                             name            varchar(100)    not null                   comment '项目名称',
+                             description     varchar(500)    default null               comment '项目描述',
+                             project_content longblob        default null               comment '项目内容',
+                             accessor_id     bigint(20)      default null               comment '评估师ID',
+                             auditor_id      bigint(20)      default null               comment '审核师ID',
+                             project_status  varchar(50)     default null               comment '项目状态',
+                             estimated_time  bigint(20)      default null               comment '项目预计持续时间',
+                             create_by       varchar(64)     default ''                 comment '创建者',
+                             create_time     datetime                                   comment '创建时间',
+                             update_by       varchar(64)     default ''                 comment '更新者',
+                             update_time     datetime                                   comment '更新时间',
+                             remark          varchar(255)    default null               comment '备注',
+                             primary key (project_id)
+) engine=innodb auto_increment=1 comment = '项目表';
+
+-- ----------------------------
+-- 初始化-项目表数据
+-- ----------------------------
+insert into sys_project (project_id, tenant_id, name, description, project_content, accessor_id, auditor_id, project_status, estimated_time, create_by, create_time, update_by, update_time, remark)
+values (1, 1, '若依管理系统', '若依管理系统', null, null, null, null, null, 'admin', sysdate(), '', null, '管理员');
+insert into sys_project (project_id, tenant_id, name, description, project_content, accessor_id, auditor_id, project_status, estimated_time, create_by, create_time, update_by, update_time, remark)
+values (2, 1, '若依代码生成', '若依代码生成', null, null, null, null, null, 'admin', sysdate(), '', null, '管理员');
