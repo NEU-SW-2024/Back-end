@@ -700,3 +700,69 @@ create table gen_table_column (
                                   update_time       datetime                                   comment '更新时间',
                                   primary key (column_id)
 ) engine=innodb auto_increment=1 comment = '代码生成业务表字段';
+
+
+-- ----------------------------
+-- 20、评估结果表
+-- ----------------------------
+drop table if exists assessment_results;
+create table assessment_results (
+                                    res_id                    bigint(20)      not null auto_increment    comment '评估结果ID',
+                                    project_id                bigint(20)      not null                   comment '关联项目的ID，标识当前评估结果所属的项目',
+                                    std_id                    bigint(20)      not null                   comment '关联评估标准的ID，标识当前评估结果所属的标准',
+                                    total_cost                decimal(12,2)   default 0.00               comment '项目评估的总造价，包含人工成本、风险成本、质量成本等',
+                                    labor_cost                decimal(12,2)   default 0.00               comment '人工成本，用于项目开发的直接人力费用',
+                                    risk_cost                 decimal(12,2)   default 0.00               comment '风险附加成本，根据风险因子计算得出的额外成本',
+                                    quality_cost              decimal(12,2)   default 0.00               comment '质量附加成本，根据质量因子计算得出的额外成本',
+                                    dev_service_cost          decimal(12,2)   default 0.00               comment '开发服务费用，开发工具和外包服务相关的直接费用',
+                                    adjusted_dev_service_cost decimal(12,2)   default 0.00               comment '调整后开发服务费用，考虑优化或额外因素调整的开发费用',
+                                    res_sugg                  varchar(500)    default ''                 comment '评估结果的建议说明，例如优化成本或资源分配的建议',
+                                    created_at                datetime                                   comment '评估结果记录的创建时间',
+                                    updated_at                datetime                                   comment '最近一次更新评估结果的时间',
+                                    primary key (res_id)
+) engine=innodb auto_increment=1000 comment = '评估结果表';
+
+-- ----------------------------
+-- 初始化-评估结果表数据
+-- ----------------------------
+insert into assessment_results
+(project_id, std_id, total_cost, labor_cost, risk_cost, quality_cost, dev_service_cost, adjusted_dev_service_cost, res_sugg, created_at, updated_at)
+values
+    (1, 1000, 100000.00, 70000.00, 10000.00, 5000.00, 5000.00, 4500.00, '建议优化人力资源配置，减少风险成本', now(), now()),
+    (2, 1001, 80000.00, 50000.00, 8000.00, 4000.00, 6000.00, 5500.00, '考虑增加团队培训以提升质量', now(), now()),
+    (3, 1002, 120000.00, 80000.00, 12000.00, 6000.00, 10000.00, 9000.00, '建议使用自动化工具降低开发服务费用', now(), now()),
+    (4, 1003, 95000.00, 60000.00, 9000.00, 5000.00, 7000.00, 6500.00, '优化供应商选择以减少成本', now(), now());
+
+-- ----------------------------
+-- 1、造价标准表
+-- ----------------------------
+drop table if exists assessment_standard;
+create table assessment_standard (
+                                     std_id              bigint(20)      not null auto_increment    comment '标准ID',
+                                     std_name            varchar(100)    default ''                 comment '标准名称',
+                                     std_type            varchar(50)     default ''                 comment '标准类型（地区标准、团队标准、规定标准）',
+                                     std_status          tinyint(1)      default 1                  comment '标准状态（1启用 0停用）',
+                                     pdr_value           decimal(10,2)   default 0.00              comment '标准PDR取值',
+                                     rsk_factor          decimal(3,1)    default 1.0              comment '风险因子',
+                                     quality_factor      decimal(3,1)    default 1.0              comment '质量因子',
+                                     swf                 decimal(3,1)    default 1.0              comment '软件复杂度因子',
+                                     rdf                 decimal(3,1)    default 1.0              comment '开发复杂度因子',
+                                     conversion_factor   decimal(5,2)    default 21.75            comment '人月折算系数',
+                                     dnc                 decimal(10,2)   default 0.00             comment '非人力成本',
+                                     created_by          varchar(64)     default ''               comment '创建者',
+                                     created_at          datetime                                comment '创建时间',
+                                     updated_at          datetime                                comment '更新时间',
+                                     primary key (std_id)
+) engine=innodb auto_increment=1000 comment = '造价标准表';
+
+-- ----------------------------
+-- 初始化-造价标准表数据
+-- ----------------------------
+INSERT INTO assessment_standard
+(std_name, std_type, std_status, pdr_value, rsk_factor, quality_factor, swf, rdf, conversion_factor, dnc, created_by, created_at, updated_at)
+VALUES
+    ('北京地区标准开发规范', '地区标准', 1, 8.5, 1.2, 1.1, 1.2, 1.3, 21.75, 2000.00, 'admin', NOW(), NOW()),
+    ('敏捷开发团队标准', '团队标准', 1, 7.5, 1.0, 1.0, 1.1, 1.2, 21.75, 1500.00, 'admin', NOW(), NOW()),
+    ('企业级应用开发规范', '规定标准', 1, 9.0, 1.4, 1.2, 1.3, 1.4, 21.75, 3000.00, 'admin', NOW(), NOW()),
+    ('移动应用开发标准', '团队标准', 1, 6.5, 1.0, 1.0, 1.0, 1.1, 21.75, 1000.00, 'admin', NOW(), NOW()),
+    ('高可用系统开发标准', '规定标准', 1, 10.0, 1.4, 1.3, 1.4, 1.5, 21.75, 4000.00, 'admin', NOW(), NOW());
