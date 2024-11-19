@@ -11,11 +11,11 @@
     </resultMap>
     <select id="selectOne" resultType="com.ruoyi.project.accessor.domain.FeatScore">
         select score_id, feat_tag,feat_diff,score
-        from tb_feat_score
+        from vue.tb_feat_score
         where feat_tag=#{tag} AND feat_diff=#{diff}
     </select>
     <select id="selectByScoreId" resultType="com.ruoyi.project.accessor.domain.FeatScore">
-        select * from tb_feat_score
+        select * from vue.tb_feat_score
         where score_id = #{scoreId};
     </select>
 </mapper>

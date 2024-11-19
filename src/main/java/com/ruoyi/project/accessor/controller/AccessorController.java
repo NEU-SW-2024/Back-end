@@ -81,4 +81,16 @@ public class AccessorController {
         return accessorService.getAll(projectId);
     }
 
+    @GetMapping("/getProjects")
+    @ApiOperation("根据评估师ID获取评估师对应的所有项目")
+    public Result getProjects(@RequestParam("accessorId") Integer accessorId) {
+        System.out.println(accessorService.getProjects(accessorId));
+        return accessorService.getProjects(accessorId);
+    }
+
+    @GetMapping("/getAssessment")
+    @ApiOperation("给子系统三的接口")
+    public Result getAssessment(@RequestParam("projectId") Integer projectId){
+        return accessorService.getAssessment(projectId);
+    }
 }

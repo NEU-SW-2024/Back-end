@@ -10,7 +10,7 @@
         <result property="featName" column="feat_name"/>
     </resultMap>
     <insert id="insert">
-        insert into tb_feat(project_id,feat_name,feat_descr,score_id)
+        insert into vue.tb_feat(project_id,feat_name,feat_descr,score_id)
         values(#{projectId},#{featName},#{featDescr},#{scoreId})
     </insert>
 </mapper>

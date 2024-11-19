@@ -1,10 +1,7 @@
 package com.ruoyi.project.accessor.service.impl;
 
 import com.ruoyi.project.accessor.domain.*;
-import com.ruoyi.project.accessor.mapper.FeatMapper;
-import com.ruoyi.project.accessor.mapper.FeatScoreMapper;
-import com.ruoyi.project.accessor.mapper.MeasureMapper;
-import com.ruoyi.project.accessor.mapper.MeasureResMapper;
+import com.ruoyi.project.accessor.mapper.*;
 import com.ruoyi.project.accessor.service.AccessorService;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +19,8 @@ public class AccessorServiceImpl implements AccessorService {
     private MeasureMapper measureMapper;
     @Resource
     private MeasureResMapper measureResMapper;
+    @Resource
+    private ProjectMapper projectMapper;
     /**
      * 保存用户输入的功能点名称、功能点描述、分类标签、复杂度(每个功能点有一个)
      */
@@ -106,6 +105,18 @@ public class AccessorServiceImpl implements AccessorService {
         }
         allResult.setFeatScores(featScores);
         return Result.success(allResult);
+    }
+
+    @Override
+    public Result getProjects(Integer accessorId) {
+        List<Project> projects = projectMapper.selectProjectsByAccessorId(accessorId);
+        return Result.success(projects);
+    }
+
+    @Override
+    public Result getAssessment(Integer projectId) {
+        List<MeasureRes> measureRes = measureResMapper.selectByProjectId(projectId);
+        return Result.success(measureRes);
     }
 
     /**

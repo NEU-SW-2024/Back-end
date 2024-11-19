@@ -17,6 +17,10 @@ public interface AccessorService {
 
     Result getAll(Integer projectId);
 
+    Result getProjects(Integer accessorId);
+
+    Result getAssessment(Integer projectId);
+
 //    Result updateFunc(List<FeatDAO> featDAOS);
 //
 //    Result deleteFunc(DeleteFuncRequest request);
