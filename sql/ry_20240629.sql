@@ -1,4 +1,4 @@
-use vue;
+use mysql;
 -- ----------------------------
 -- 1、部门表
 -- ----------------------------
@@ -161,7 +161,11 @@ create table sys_menu (
 -- ----------------------------
 -- 一级菜单
 insert into sys_menu values('1', '系统管理', '0', '1', 'system',           null, '', '', 1, 0, 'M', '0', '0', '', 'system',   'admin', sysdate(), '', null, '系统管理目录');
--- insert into sys_menu values('2', '系统监控', '0', '2', 'monitor',          null, '', '', 1, 0, 'M', '0', '0', '', 'monitor',  'admin', sysdate(), '', null, '系统监控目录');
+insert into sys_menu values('6080', '功能点分析', '0', '2', 'accessor1',         'system/accessor1/index', '', '', 1, 0, 'C', '0', '0', '', '',  'accessor', sysdate(), '', null, '系统监控目录');
+insert into sys_menu values('6081', '测试功能点', '0', '2', 'accessor2',         'system/accessor2/index', '', '', 1, 0, 'C', '0', '0', '', '',  'accessor', sysdate(), '', null, '系统监控目录');
+insert into sys_menu values('6082', '测试功能点2', '0', '2', 'accessor3',         'system/accessor2/AssessedPage', '', '', 1, 0, 'C', '0', '0', '', '',  'accessor', sysdate(), '', null, '系统监控目录');
+
+# insert into sys_menu values('2', '系统监控', '0', '2', 'monitor',          null, '', '', 1, 0, 'M', '0', '0', '', 'monitor',  'admin', sysdate(), '', null, '系统监控目录');
 -- insert into sys_menu values('3', '系统工具', '0', '3', 'tool',             null, '', '', 1, 0, 'M', '0', '0', '', 'tool',     'admin', sysdate(), '', null, '系统工具目录');
 -- insert into sys_menu values('4', '若依官网', '0', '4', 'http://ruoyi.vip', null, '', '', 0, 0, 'M', '0', '0', '', 'guide',    'admin', sysdate(), '', null, '若依官网地址');
 -- 二级菜单
@@ -714,32 +718,70 @@ create table gen_table_column (
                                   update_time       datetime                                   comment '更新时间',
                                   primary key (column_id)
 ) engine=innodb auto_increment=1 comment = '代码生成业务表字段';
--- ----------------------------
--- 20、项目表
--- ----------------------------
-drop table if exists sys_project;
-create table sys_project (
-                             project_id      bigint(20)      not null auto_increment    comment '项目ID',
-                             tenant_id       bigint(20)      not null                   comment '租户ID',
-                             name            varchar(100)    not null                   comment '项目名称',
-                             description     varchar(500)    default null               comment '项目描述',
-                             project_content longblob        default null               comment '项目内容',
-                             accessor_id     bigint(20)      default null               comment '评估师ID',
-                             auditor_id      bigint(20)      default null               comment '审核师ID',
-                             project_status  varchar(50)     default null               comment '项目状态',
-                             estimated_time  bigint(20)      default null               comment '项目预计持续时间',
-                             create_by       varchar(64)     default ''                 comment '创建者',
-                             create_time     datetime                                   comment '创建时间',
-                             update_by       varchar(64)     default ''                 comment '更新者',
-                             update_time     datetime                                   comment '更新时间',
-                             remark          varchar(255)    default null               comment '备注',
-                             primary key (project_id)
-) engine=innodb auto_increment=1 comment = '项目表';
 
 -- ----------------------------
--- 初始化-项目表数据
+-- 20、功能点分数表
 -- ----------------------------
-insert into sys_project (project_id, tenant_id, name, description, project_content, accessor_id, auditor_id, project_status, estimated_time, create_by, create_time, update_by, update_time, remark)
-values (1, 1, '若依管理系统', '若依管理系统', null, null, null, null, null, 'admin', sysdate(), '', null, '管理员');
-insert into sys_project (project_id, tenant_id, name, description, project_content, accessor_id, auditor_id, project_status, estimated_time, create_by, create_time, update_by, update_time, remark)
-values (2, 1, '若依代码生成', '若依代码生成', null, null, null, null, null, 'admin', sysdate(), '', null, '管理员');
+drop table if exists tb_feat_score;
+create table tb_feat_score(
+                              score_id int not null auto_increment primary key comment '分数表的id',
+                              feat_tag varchar(20) not null comment '功能点标签',
+                              feat_diff int not null comment '复杂度:0低，1中，2高',
+                              score int not null comment '功能点标签+复杂度对应的分数'
+) engine=innodb auto_increment=1 comment = '功能点分数表';
+
+-- ----------------------------
+-- 初始化-IFPUG功能点评估表
+-- ----------------------------
+insert into tb_feat_score(feat_tag,feat_diff,score) values ('EI',0,3),
+                                                           ('EI',1,4),
+                                                           ('EI',2,6),
+                                                           ('EO',0,4),
+                                                           ('EO',1,5),
+                                                           ('EO',2,7),
+                                                           ('EQ',0,3),
+                                                           ('EQ',1,4),
+                                                           ('EQ',2,6),
+                                                           ('ILF',0,7),
+                                                           ('ILF',1,10),
+                                                           ('ILF',2,15),
+                                                           ('EIF',0,5),
+                                                           ('EIF',1,7),
+                                                           ('EIF',2,10);
+
+-- ----------------------------
+-- 21、功能表（用户输入）
+-- ----------------------------
+drop table if exists tb_feat;
+create table tb_feat(
+                         project_id int not null comment '项目ID',
+                         feat_name varchar(20) not null comment '功能点名称',
+                         feat_descr varchar(200) not null comment '功能点描述',
+                         score_id int not null comment '分数表中对应的id',
+                         foreign key (score_id) references tb_feat_score(score_id)
+) engine=innodb auto_increment=1 comment = '功能表';
+
+-- ----------------------------
+-- 22、度量表
+-- ----------------------------
+drop table if exists tb_measure;
+create table tb_measure(
+        project_id int not null comment '项目ID',
+        measure_name varchar(20) not null comment '度量名称',
+        DI int not null comment '度量分数0-5'
+)  engine=innodb auto_increment=1 comment = '度量表';
+
+-- ----------------------------
+-- 23、评估结果表
+-- ----------------------------
+drop table if exists tb_measure_res;
+create table tb_measure_res(
+    project_id int not null comment '项目ID',
+    UPF int not null comment '功能点分数总和',
+    VAF float not null comment '调整系数',
+    DFP float not null comment '调整后的功能点数',
+    GSC int not null comment 'DI总和',
+    status int not null comment '项目状态：0待评估1待审核2完成',
+    S float not null comment '规模变更调整因子',
+    CF float not null comment '项目进度,立项2,招标1.5,早期1.26,中期1.26,晚期1.0'
+) engine=innodb auto_increment=1 comment = '评估结果表';
