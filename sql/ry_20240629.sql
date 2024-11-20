@@ -161,8 +161,8 @@ create table sys_menu (
 -- 一级菜单
 insert into sys_menu values('1', '系统管理', '0', '1', 'system',           null, '', '', 1, 0, 'M', '0', '0', '', 'system',   'admin', sysdate(), '', null, '系统管理目录');
 insert into sys_menu values('6080', '功能点分析', '0', '2', 'accessor1',         'system/accessor1/index', '', '', 1, 0, 'C', '0', '0', '', '',  'accessor', sysdate(), '', null, '系统监控目录');
-insert into sys_menu values('6081', '测试功能点', '0', '2', 'accessor2',         'system/accessor2/index', '', '', 1, 0, 'C', '0', '0', '', '',  'accessor', sysdate(), '', null, '系统监控目录');
-insert into sys_menu values('6082', '测试功能点2', '0', '2', 'accessor3',         'system/accessor2/AssessedPage', '', '', 1, 0, 'C', '0', '0', '', '',  'accessor', sysdate(), '', null, '系统监控目录');
+insert into sys_menu values('6081', '测试功能点', '0', '2', 'accessor2',         'system/accessor2/index', '', '', 1, 0, 'C', '1', '0', '', '',  'accessor', sysdate(), '', null, '系统监控目录');
+insert into sys_menu values('6082', '测试功能点2', '0', '2', 'accessor3',         'system/accessor2/AssessedPage', '', '', 1, 0, 'C', '1', '0', '', '',  'accessor', sysdate(), '', null, '系统监控目录');
 
 # insert into sys_menu values('2', '系统监控', '0', '2', 'monitor',          null, '', '', 1, 0, 'M', '0', '0', '', 'monitor',  'admin', sysdate(), '', null, '系统监控目录');
 -- insert into sys_menu values('3', '系统工具', '0', '3', 'tool',             null, '', '', 1, 0, 'M', '0', '0', '', 'tool',     'admin', sysdate(), '', null, '系统工具目录');
@@ -705,6 +705,7 @@ create table gen_table_column (
                                   primary key (column_id)
 ) engine=innodb auto_increment=1 comment = '代码生成业务表字段';
 
+
 -- ----------------------------
 -- 20、功能点分数表
 -- ----------------------------
@@ -771,3 +772,40 @@ create table tb_measure_res(
     S float not null comment '规模变更调整因子',
     CF float not null comment '项目进度,立项2,招标1.5,早期1.26,中期1.26,晚期1.0'
 ) engine=innodb auto_increment=1 comment = '评估结果表';
+
+
+create table sys_project (
+project_id bigint(20) not null auto_increment comment '项目ID',
+tenant_id bigint(20) not null comment '租户ID',
+name varchar(100) not null comment '项目名称',
+description varchar(500) default null comment '项目描述',
+project_content longblob default null comment '项目内容',
+accessor_id bigint(20) default null comment '评估师ID',
+auditor_id bigint(20) default null comment '审核师ID',
+project_status varchar(50) default null comment '项目状态',
+estimated_time bigint(20) default null comment '项目预计持续时间',
+create_by varchar(64) default '' comment '创建者',
+create_time datetime comment '创建时间',
+update_by varchar(64) default '' comment '更新者',
+update_time datetime comment '更新时间',
+remark varchar(255) default null comment '备注',
+primary key (project_id)
+) engine=innodb auto_increment=1 comment = '项目表';
+
+insert into sys_project(project_id,tenant_id,name,description,accessor_id,auditor_id,project_status,estimated_time,create_by,create_time,update_by,update_time,remark)
+values(1,1,'项目1','项目1描述wawawa',2,3,'项目立项',5,'admin',now(),'admin',now(),'备注');
+
+insert into sys_project(project_id,tenant_id,name,description,accessor_id,auditor_id,project_status,estimated_time,create_by,create_time,update_by,update_time,remark)
+values(2,1,'项目2','项目2描述wawawa',2,3,'项目立项',5,'admin',now(),'admin',now(),'备注');
+
+insert into sys_project(project_id,tenant_id,name,description,accessor_id,auditor_id,project_status,estimated_time,create_by,create_time,update_by,update_time,remark)
+values(3,1,'项目3','项目3描述wawawa',2,3,'项目立项',5,'admin',now(),'admin',now(),'备注');
+
+insert into tb_measure_res(project_id,UPF,VAF,DFP,GSC,status,S,CF) values(3,0,0,0,0,0,0,2);
+insert into tb_measure_res(project_id,UPF,VAF,DFP,GSC,status,S,CF) values(2,0,0,0,0,0,0,1.5);
+
+delete from tb_measure_res where project_id=2;
+delete from tb_measure_res where project_id=3;
+
+insert into tb_measure_res (project_id, UPF, VAF, DFP, GSC, status, S, CF) VALUES (2, 0, 0, 0, 0, 0, 0, 0);
+insert into tb_measure_res (project_id, UPF, VAF, DFP, GSC, status, S, CF) VALUES (3, 0, 0, 0, 0, 1, 0, 0);

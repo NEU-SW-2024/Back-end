@@ -9,8 +9,8 @@ import java.util.List;
  */
 @Data
 public class AllResult {
-    private List<Feat> feats;
-    private List<MeasureRes> measureRes;
-    private List<Measure> measures;
-    private List<FeatScore> featScores;
+private List<Feat> feats;
+private MeasureRes measureRes;
+private List<Measure> measures;
+private List<FeatScore> featScores;
 }
