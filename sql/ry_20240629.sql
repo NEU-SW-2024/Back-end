@@ -850,8 +850,9 @@ insert into sys_project (project_id, tenant_id, name, description, project_conte
 values (2, 1, '若依代码生成', '若依代码生成', null, null, null, null, null, 'admin', sysdate(), '', null, '管理员');
 
 
+
 -- ----------------------------
--- 20、功能点分数表
+-- 23、功能点分数表
 -- ----------------------------
 drop table if exists tb_feat_score;
 create table tb_feat_score(
@@ -861,9 +862,6 @@ create table tb_feat_score(
                               score int not null comment '功能点标签+复杂度对应的分数'
 ) engine=innodb auto_increment=1 comment = '功能点分数表';
 
--- ----------------------------
--- 初始化-IFPUG功能点评估表
--- ----------------------------
 insert into tb_feat_score(feat_tag,feat_diff,score) values ('EI',0,3),
                                                            ('EI',1,4),
                                                            ('EI',2,6),
@@ -881,19 +879,19 @@ insert into tb_feat_score(feat_tag,feat_diff,score) values ('EI',0,3),
                                                            ('EIF',2,10);
 
 -- ----------------------------
--- 21、功能表（用户输入）
+-- 20、功能点表
 -- ----------------------------
 drop table if exists tb_feat;
 create table tb_feat(
                         project_id int not null comment '项目ID',
                         feat_name varchar(20) not null comment '功能点名称',
                         feat_descr varchar(200) not null comment '功能点描述',
-                        score_id int not null comment '分数表中对应的id',
+                        score_id int not null  comment '分数表中对应的id',
                         foreign key (score_id) references tb_feat_score(score_id)
 ) engine=innodb auto_increment=1 comment = '功能表';
 
 -- ----------------------------
--- 22、度量表
+-- 21、度量表
 -- ----------------------------
 drop table if exists tb_measure;
 create table tb_measure(
@@ -903,7 +901,7 @@ create table tb_measure(
 )  engine=innodb auto_increment=1 comment = '度量表';
 
 -- ----------------------------
--- 23、评估结果表
+-- 22、评估结果表
 -- ----------------------------
 drop table if exists tb_measure_res;
 create table tb_measure_res(
@@ -916,3 +914,7 @@ create table tb_measure_res(
                                S float not null comment '规模变更调整因子',
                                CF float not null comment '项目进度,立项2,招标1.5,早期1.26,中期1.26,晚期1.0'
 ) engine=innodb auto_increment=1 comment = '评估结果表';
+
+
+
+
