@@ -68,7 +68,13 @@ public class AccessorServiceImpl implements AccessorService {
      */
     @Override
     public AjaxResult saveMeasure(Float cf, List<Measure> measures) {
+        // TODO 在保存之前看数据库里有没有这行数据 如果有就删了重新保存
         Integer projectId = measures.get(0).getProjectId();
+        List<MeasureRes> measureRes1 = measureResMapper.selectByProjectId(projectId);
+        if (measureRes1.size()>0) {
+            // 需要删除掉数据库保存的measureRes
+            measureResMapper.deleteByProjectId(projectId);
+        }
         int GSC = 0;
         for (Measure measure : measures) {
             measureMapper.insert(measure);
