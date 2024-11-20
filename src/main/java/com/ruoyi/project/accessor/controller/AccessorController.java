@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/dev-api/accessor")
+@RequestMapping("/accessor")
 @Api("评估师")
 public class AccessorController {
 
