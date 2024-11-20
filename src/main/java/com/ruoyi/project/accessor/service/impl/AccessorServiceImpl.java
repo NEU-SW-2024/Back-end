@@ -27,6 +27,12 @@ public class AccessorServiceImpl implements AccessorService {
      */
     @Override
     public AjaxResult saveFunc(List<FeatDAO> featDAOS) {
+        Integer projectId = featDAOS.get(0).getProjectId();
+        List<Integer> existedFeats = featMapper.selectList(projectId);
+        if (existedFeats.size()>0){
+            // 说明已经保存过一次功能点了 把旧的功能点都删了
+            featMapper.deleteByProjectId(projectId);
+        }
         List<FeatScore> featScores = new ArrayList<>();
         for (FeatDAO featDAO : featDAOS) {
             String tag = featDAO.getTag();
@@ -68,12 +74,11 @@ public class AccessorServiceImpl implements AccessorService {
      */
     @Override
     public AjaxResult saveMeasure(Float cf, List<Measure> measures) {
-        // TODO 在保存之前看数据库里有没有这行数据 如果有就删了重新保存
         Integer projectId = measures.get(0).getProjectId();
-        List<MeasureRes> measureRes1 = measureResMapper.selectByProjectId(projectId);
-        if (measureRes1.size()>0) {
+        List<Measure> measure1 = measureMapper.selectByProjectId(projectId);
+        if (measure1.size()>0) {
             // 需要删除掉数据库保存的measureRes
-            measureResMapper.deleteByProjectId(projectId);
+            measureMapper.deleteByProjectId(projectId);
         }
         int GSC = 0;
         for (Measure measure : measures) {
@@ -93,6 +98,10 @@ public class AccessorServiceImpl implements AccessorService {
         measureRes.setUPF(UFPsum);
         measureRes.setCf(cf);
         measureRes.setS(s);
+        MeasureRes measureRes1 = measureResMapper.selectByProjectId(projectId);
+        if (measureRes1!=null){
+            measureResMapper.deleteByProjectId(projectId);
+        }
         measureResMapper.insert(measureRes);
         return AjaxResult.success(measureRes);
     }
@@ -100,7 +109,7 @@ public class AccessorServiceImpl implements AccessorService {
     @Override
     public AjaxResult getAll(Integer projectId) {
         List<Feat> feats = featMapper.selectByProjectId(projectId);
-        List<MeasureRes> measureRes = measureResMapper.selectByProjectId(projectId);
+        MeasureRes measureRes = measureResMapper.selectByProjectId(projectId);
         List<Measure> measures = measureMapper.selectByProjectId(projectId);
         AllResult allResult = new AllResult();
         allResult.setMeasures(measures);
@@ -122,7 +131,7 @@ public class AccessorServiceImpl implements AccessorService {
 
     @Override
     public AjaxResult getAssessment(Integer projectId) {
-        List<MeasureRes> measureRes = measureResMapper.selectByProjectId(projectId);
+        MeasureRes measureRes = measureResMapper.selectByProjectId(projectId);
         return AjaxResult.success(measureRes);
     }
 

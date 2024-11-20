@@ -1,6 +1,7 @@
 package com.ruoyi.project.accessor.mapper;
 
 import com.ruoyi.project.accessor.domain.Feat;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -13,4 +14,7 @@ public interface FeatMapper{
 
     @Select("select * from vue.tb_feat where project_id=#{projectId}")
     List<Feat> selectByProjectId(Integer projectId);
+
+    @Delete("delete from vue.tb_feat where project_id=#{projectId}")
+    void deleteByProjectId(Integer projectId);
 }
