@@ -9,9 +9,9 @@ import java.util.List;
 public interface MeasureMapper {
     void insert(Measure measure);
 
-    @Select("select * from mysql.tb_measure where project_id=#{projectId}")
+    @Select("select * from vue.tb_measure where project_id=#{projectId}")
     List<Measure> selectByProjectId(Integer projectId);
 
-    @Delete("delete from mysql.tb_measure")
+    @Delete("delete from vue.tb_measure")
     void deleteByProjectId(Integer projectId);
 }

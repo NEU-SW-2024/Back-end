@@ -8,6 +8,6 @@ import java.util.List;
 
 @Mapper
 public interface ProjectMapper {
-    @Select("select * from mysql.sys_project where accessor_id=${accessorId}")
+    @Select("select * from vue.sys_project where accessor_id=${accessorId}")
     List<Project> selectProjectsByAccessorId(Integer accessorId);
 }

@@ -1,15 +1,21 @@
 package com.ruoyi.project.accessor.controller;
 
+import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.project.accessor.domain.*;
 import com.ruoyi.project.accessor.service.AccessorService;
+import com.ruoyi.project.system.controller.SysProfileController;
+import com.ruoyi.project.system.domain.SysProject;
+import com.ruoyi.project.system.mapper.SysProjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/dev-api/accessor")
@@ -18,6 +24,10 @@ public class AccessorController {
 
     @Resource
     private AccessorService accessorService;
+    @Autowired
+    private SysProfileController sysProfileController;
+    @Autowired
+    private SysProjectMapper sysProjectMapper;
 
 //    /**
 //     * 批量更新功能点
@@ -87,8 +97,12 @@ public class AccessorController {
 @ApiOperation("根据评估师ID获取评估师对应的所有项目")
 public AjaxResult getProjects(@RequestParam("accessorId") Integer accessorId) {
         System.out.println("accessorId:"+accessorId);
-        System.out.println(accessorService.getProjects(accessorId));
-        return accessorService.getProjects(accessorId);
+        System.out.println(sysProjectMapper.selectProjectList(null));
+        List <SysProject>sysProjectMapperList = sysProjectMapper.selectProjectList(null);
+        //筛选所有accessorId为accessorId的项目参考下面这行
+//        return list.stream().filter(u -> u.getCreateBy().equals(SecurityUtils.getUsername()) || u.getUserName().equals(SecurityUtils.getUsername())).collect(Collectors.toList());
+        List<SysProject> sysProjectList = sysProjectMapperList.stream().filter(u -> u.getAccessorId().equals(SecurityUtils.getUserId())).collect(Collectors.toList());
+        return AjaxResult.success(sysProjectList);
 }
 
 @GetMapping("/getStatus")

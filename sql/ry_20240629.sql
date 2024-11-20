@@ -1,4 +1,4 @@
-use mysql;
+use vue;
 -- ----------------------------
 -- 1、部门表
 -- ----------------------------
@@ -768,7 +768,7 @@ create table tb_feat(
 drop table if exists tb_measure;
 create table tb_measure(
         project_id int not null comment '项目ID',
-        measure_name varchar(20) not null comment '度量名称',
+        measure_name varchar(1000) not null comment '度量名称',
         DI int not null comment '度量分数0-5'
 )  engine=innodb auto_increment=1 comment = '度量表';
 

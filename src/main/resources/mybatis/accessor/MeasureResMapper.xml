@@ -14,7 +14,7 @@
         <result property="S" column="S"/>
     </resultMap>
     <insert id="insert">
-        insert into mysql.tb_measure_res(project_id,UPF,VAF,DFP,GSC,status,cf,S)
+        insert into vue.tb_measure_res(project_id,UPF,VAF,DFP,GSC,status,cf,S)
         values (#{projectId},#{UPF},#{VAF},#{DFP},#{GSC},#{status},#{cf},#{S});
     </insert>
 </mapper>
