@@ -35,4 +35,45 @@ public class ProjectReportService {
 
         return projects;
     }
+
+    /**
+     * 根据评估师ID获取所有项目及其详细信息
+     *
+     * @param accessorId 租户ID
+     * @return 项目详情列表
+     */
+    public List<ProjectDTO> getProjectsByAccessorId(Long accessorId) {
+        if (accessorId == null || accessorId <= 0) {
+            throw new IllegalArgumentException("租户ID不能为空或无效！");
+        }
+
+        List<ProjectDTO> projects = projectMapper.getProjectsByAccessorId(accessorId);
+
+        if (projects == null || projects.isEmpty()) {
+            throw new RuntimeException("未找到租户ID为 " + accessorId + " 的项目！");
+        }
+
+        return projects;
+    }
+
+    /**
+     * 根据审核员ID获取所有项目及其详细信息
+     *
+     * @param auditorId 租户ID
+     * @return 项目详情列表
+     */
+    public List<ProjectDTO> getProjectsByAuditorId(Long auditorId) {
+        if (auditorId == null || auditorId <= 0) {
+            throw new IllegalArgumentException("租户ID不能为空或无效！");
+        }
+
+        List<ProjectDTO> projects = projectMapper.getProjectsByAuditorId(auditorId);
+
+        if (projects == null || projects.isEmpty()) {
+            throw new RuntimeException("未找到租户ID为 " + auditorId + " 的项目！");
+        }
+
+        return projects;
+    }
+
 }

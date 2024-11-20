@@ -22,15 +22,18 @@ public class ProjectReportController {
     }
 
     /**
-     * 根据租户ID获取所有项目及其详细信息
+     * 根据用户ID获取所有项目及其详细信息
      *
-     * @param tenantId 租户ID
+     * @param userId 租户ID
      * @return 项目详情列表
      */
-    @GetMapping("/tenant/{tenantId}")
-    public ResponseEntity<List<ProjectDTO>> getProjectsByTenantId(@PathVariable Long tenantId) {
+    @GetMapping("/projectInfo/{userId}")
+    public ResponseEntity<List<ProjectDTO>> getProjectsByTenantId(@PathVariable Long userId) {
+        //加一个权限判断，调用不同方法
         try {
-            List<ProjectDTO> projects = projectService.getProjectsByTenantId(tenantId);
+            //List<ProjectDTO> projects = projectService.getProjectsByAccessorId(userId);
+            //List<ProjectDTO> projects = projectService.getProjectsByAuditorId(userId);
+            List<ProjectDTO> projects = projectService.getProjectsByTenantId(userId);
             return ResponseEntity.ok(projects);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(null);

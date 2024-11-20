@@ -3,7 +3,7 @@
 
 <mapper namespace="com.ruoyi.project.analysis.mapper.ProjectReportMapper">
 
-    <!-- 查询项目的基本信息 -->
+    <!-- 根据租户id查询项目的基本信息 -->
     <select id="getProjectsByTenantId" resultMap="ProjectResultMap">
         SELECT
             sp.project_id,
@@ -48,6 +48,96 @@
             sp.tenant_id = #{tenantId}
     </select>
 
+    <!-- 根据审核员ID查询项目 -->
+    <select id="getProjectsByAuditorId" resultMap="ProjectResultMap">
+        SELECT
+            sp.project_id,
+            sp.tenant_id,
+            sp.name AS name,
+            sp.description,
+            sua.nick_name AS accessor,
+            su.nick_name AS auditor,
+            sp.project_status,
+            sp.create_time,
+
+            tmr.UPF,
+            tmr.VAF,
+            tmr.DFP,
+            tmr.GSC,
+            tmr.status AS assessment_status,
+            tmr.S AS adjustment_factor,
+
+            ar.total_cost,
+            ar.labor_cost,
+            ar.risk_cost,
+            ar.quality_cost,
+            ar.dev_service_cost,
+            ar.adjusted_dev_service_cost,
+            ar.res_sugg,
+            ar.created_at AS assessment_created_at,
+
+            CASE
+                WHEN prs.project_id IS NOT NULL THEN TRUE
+                ELSE FALSE
+                END AS report_status
+
+        FROM
+            sys_project sp
+                LEFT JOIN tb_measure_res tmr ON sp.project_id = tmr.project_id
+                LEFT JOIN assessment_results ar ON sp.project_id = ar.project_id
+                LEFT JOIN project_report_status prs ON sp.project_id = prs.project_id
+                LEFT JOIN sys_user su ON sp.auditor_id = su.user_id
+                LEFT JOIN sys_user sua ON sp.accessor_id = sua.user_id
+
+        WHERE
+            sp.auditor_id = #{auditorId}
+    </select>
+
+    <!-- 根据评估员ID查询项目 -->
+    <select id="getProjectsByAccessorId" resultMap="ProjectResultMap">
+        SELECT
+            sp.project_id,
+            sp.tenant_id,
+            sp.name AS name,
+            sp.description,
+            sua.nick_name AS accessor,
+            su.nick_name AS auditor,
+            sp.project_status,
+            sp.create_time,
+
+            tmr.UPF,
+            tmr.VAF,
+            tmr.DFP,
+            tmr.GSC,
+            tmr.status AS assessment_status,
+            tmr.S AS adjustment_factor,
+
+            ar.total_cost,
+            ar.labor_cost,
+            ar.risk_cost,
+            ar.quality_cost,
+            ar.dev_service_cost,
+            ar.adjusted_dev_service_cost,
+            ar.res_sugg,
+            ar.created_at AS assessment_created_at,
+
+            CASE
+                WHEN prs.project_id IS NOT NULL THEN TRUE
+                ELSE FALSE
+                END AS report_status
+
+        FROM
+            sys_project sp
+                LEFT JOIN tb_measure_res tmr ON sp.project_id = tmr.project_id
+                LEFT JOIN assessment_results ar ON sp.project_id = ar.project_id
+                LEFT JOIN project_report_status prs ON sp.project_id = prs.project_id
+                LEFT JOIN sys_user su ON sp.auditor_id = su.user_id
+                LEFT JOIN sys_user sua ON sp.accessor_id = sua.user_id
+
+        WHERE
+            sp.accessor_id = #{accessorId}
+    </select>
+
     <!-- 查询功能点 -->
     <select id="getFeaturesByProjectId" resultType="com.ruoyi.project.analysis.domain.Feature">
         SELECT
@@ -58,6 +148,7 @@
         WHERE
             tf.project_id = #{projectId}
     </select>
+
 
     <!-- 查询度量信息 -->
     <select id="getMeasuresByProjectId" resultType="com.ruoyi.project.analysis.domain.Measure">

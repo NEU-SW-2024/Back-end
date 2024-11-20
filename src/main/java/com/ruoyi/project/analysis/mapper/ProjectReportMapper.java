@@ -9,4 +9,6 @@ import java.util.List;
 @Mapper
 public interface ProjectReportMapper {
     List<ProjectDTO> getProjectsByTenantId(@Param("tenantId") Long tenantId);
+    List<ProjectDTO> getProjectsByAccessorId(@Param("accessorId") Long tenantId);
+    List<ProjectDTO> getProjectsByAuditorId(@Param("auditorId") Long tenantId);
 }
