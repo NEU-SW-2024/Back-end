@@ -2,6 +2,8 @@ package com.ruoyi.project.accessor.domain;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class Project {
     //项目ID
@@ -24,4 +26,14 @@ public class Project {
     private Integer estimatedTime;
     // 备注
     private String remark;
+    // 更新时间
+    private LocalDateTime updateTime;
+    // 更新者
+    private String updateBy;
+    // 创建时间
+    private LocalDateTime createTime;
+    // 创建者
+    private String createBy;
+    // 项目预计持续时间
+    private Integer estimated_time;
 }

@@ -18,4 +18,7 @@ public interface MeasureResMapper {
 
     @Delete("delete from vue.tb_measure_res where project_id=#{projectId}")
     void deleteByProjectId(Integer projectId);
+
+    @Select("select * from vue.tb_measure_res")
+    List<MeasureRes> getAll();
 }

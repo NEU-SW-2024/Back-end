@@ -5,7 +5,6 @@ import com.ruoyi.project.accessor.domain.*;
 import com.ruoyi.project.accessor.service.AccessorService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.aspectj.weaver.loadtime.Aj;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -78,8 +77,22 @@ public class AccessorController {
         return accessorService.getAssessment(projectId);
     }
 
+    @GetMapping("/getAllAssessments")
+    @ApiOperation("获取所有的assessment")
+    public AjaxResult getAllAssessments() {
+        return accessorService.getAllAssessments();
+    }
+
     @GetMapping("/getStatus")
+    @ApiOperation("获取项目状态")
     public AjaxResult getStatus(@RequestParam("projectId") Integer projectId){
         return accessorService.getStatus(projectId);
     }
+
+    @GetMapping("/getProjectById")
+    @ApiOperation("根据ID获取单个项目的信息")
+    public AjaxResult getProjectId(@RequestParam("projectId") Integer projectId){
+        return accessorService.getProjectById(projectId);
+    }
+
 }

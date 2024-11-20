@@ -141,6 +141,18 @@ public class AccessorServiceImpl implements AccessorService {
         return AjaxResult.success(status);
     }
 
+    @Override
+    public AjaxResult getProjectById(Integer projectId) {
+        Project project = projectMapper.getProjectById(projectId);
+        return AjaxResult.success(project);
+    }
+
+    @Override
+    public AjaxResult getAllAssessments() {
+        List<MeasureRes> measureRes = measureResMapper.getAll();
+        return AjaxResult.success(measureRes);
+    }
+
     /**
      * 计算UFP总和
      */

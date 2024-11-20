@@ -24,6 +24,10 @@ public interface AccessorService {
 
     AjaxResult getStatus(Integer projectId);
 
+    AjaxResult getProjectById(Integer projectId);
+
+    AjaxResult getAllAssessments();
+
 //    Result updateFunc(List<FeatDAO> featDAOS);
 //
 //    Result deleteFunc(DeleteFuncRequest request);
