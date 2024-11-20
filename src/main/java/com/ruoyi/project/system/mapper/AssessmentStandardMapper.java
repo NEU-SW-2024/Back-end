@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface AssessmentStandardMapper {
     List<SysAssessmentStd> selectStandardList(SysAssessmentStd std);
-    SysAssessmentStd selectStandardById(@Param("stdId") Long stdId);
+    SysAssessmentStd selectStandardById(@Param("stdId") Integer stdId);
     int insertStandard(SysAssessmentStd std);
     int updateStandard(SysAssessmentStd std);
     int deleteStandardById(@Param("stdId") Long stdId);

@@ -22,6 +22,7 @@ public class AccessorServiceImpl implements AccessorService {
     private MeasureResMapper measureResMapper;
     @Resource
     private ProjectMapper projectMapper;
+
     /**
      * 保存用户输入的功能点名称、功能点描述、分类标签、复杂度(每个功能点有一个)
      */
@@ -126,6 +127,38 @@ public class AccessorServiceImpl implements AccessorService {
         return AjaxResult.success(status);
     }
 
+    @Override
+    public float getDFP(Integer projectId) {
+        Float DFP = measureResMapper.selectDFP(projectId);
+        return DFP != null ? DFP.floatValue() : 0.0f;
+    }
+
+    @Override
+    public AjaxResult getPendingProjects() {
+        List<ProjectMeasureRes> projectList = new ArrayList<>();
+        List<MeasureRes> projects = measureResMapper.selectAll();
+
+        System.out.println(projects);
+
+
+        System.out.println("Total projects: " + projects.size());
+        for (MeasureRes project : projects) {
+            Integer status = measureResMapper.selectStatusByProjectId(project.getProjectId());
+            System.out.println("Project ID: " + project.getProjectId() + ", Status: " + status);
+            if (status != null && status == 3) {
+                // ... 其余代码不变
+                ProjectMeasureRes dto = new ProjectMeasureRes();
+                dto.setProjectId(project.getProjectId());
+                String name = projectMapper.selectProjectNameById(project.getProjectId());
+                dto.setName(name);
+                dto.setProjectStatus(project.getStatus());
+                dto.setDFP(project.getDFP());
+                projectList.add(dto);
+            }
+        }
+        return AjaxResult.success(projectList);
+    }
+
     /**
      * 计算UFP总和
      */
@@ -141,4 +174,11 @@ public class AccessorServiceImpl implements AccessorService {
         }
         return res;
     }
+
+    //通过项目id获取项目名称
+    @Override
+    public String getProjectNameById(Integer projectId) {
+        return projectMapper.selectProjectNameById(projectId);
+    }
+
 }

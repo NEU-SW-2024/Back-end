@@ -10,4 +10,10 @@ import java.util.List;
 public interface ProjectMapper {
     @Select("select * from vue.sys_project where accessor_id=${accessorId}")
     List<Project> selectProjectsByAccessorId(Integer accessorId);
+
+    /**
+     * 根据项目ID获取项目名称
+     */
+    @Select("SELECT name FROM vue.sys_project WHERE project_id = #{projectId}")
+    String selectProjectNameById(Integer projectId);
 }

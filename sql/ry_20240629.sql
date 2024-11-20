@@ -848,7 +848,14 @@ insert into sys_project (project_id, tenant_id, name, description, project_conte
 values (1, 1, '若依管理系统', '若依管理系统', null, null, null, null, null, 'admin', sysdate(), '', null, '管理员');
 insert into sys_project (project_id, tenant_id, name, description, project_content, accessor_id, auditor_id, project_status, estimated_time, create_by, create_time, update_by, update_time, remark)
 values (2, 1, '若依代码生成', '若依代码生成', null, null, null, null, null, 'admin', sysdate(), '', null, '管理员');
+-- ----------------------------
+-- 初始化-项目表补充数据
+-- ----------------------------
+insert into sys_project (project_id, tenant_id, name, description, project_content, accessor_id, auditor_id, project_status, estimated_time, create_by, create_time, update_by, update_time, remark)
+values (3, 2, '功能点评估系统', '软件项目功能点评估管理系统', null, 101, 201, '进行中', 180, 'admin', sysdate(), '', null, '功能点评估系统项目');
 
+insert into sys_project (project_id, tenant_id, name, description, project_content, accessor_id, auditor_id, project_status, estimated_time, create_by, create_time, update_by, update_time, remark)
+values (4, 2, '智能客服平台', '基于AI的智能客服系统', null, 102, 202, '规划中', 240, 'admin', sysdate(), '', null, '智能客服平台项目');
 
 
 -- ----------------------------
@@ -901,7 +908,7 @@ create table tb_measure(
 )  engine=innodb auto_increment=1 comment = '度量表';
 
 -- ----------------------------
--- 22、评估结果表
+-- 22、评估结果表（系统二！！！）
 -- ----------------------------
 drop table if exists tb_measure_res;
 create table tb_measure_res(
@@ -910,10 +917,29 @@ create table tb_measure_res(
                                VAF float not null comment '调整系数',
                                DFP float not null comment '调整后的功能点数',
                                GSC int not null comment 'DI总和',
-                               status int not null comment '项目状态：0待评估1待审核2完成',
+                               status int not null comment '项目状态：0待评估1待审核2完成3待计算',
                                S float not null comment '规模变更调整因子',
                                CF float not null comment '项目进度,立项2,招标1.5,早期1.26,中期1.26,晚期1.0'
 ) engine=innodb auto_increment=1 comment = '评估结果表';
+
+-- ----------------------------
+-- 初始化-评估结果表数据
+-- ----------------------------
+
+-- 插入一个处于完成状态的中期项目数据，功能点适中
+insert into tb_measure_res values(1, 150, 1.1, 165.0, 42, 3, 1.0, 1.26);
+
+-- 插入一个处于待审核状态的招标阶段项目数据，功能点较大
+insert into tb_measure_res values(2, 200, 1.2, 240.0, 45, 1, 1.2, 1.5);
+
+-- 插入一个待评估的立项阶段项目数据，中等规模
+insert into tb_measure_res values(3, 180, 1.15, 207.0, 40, 0, 1.1, 2.0);
+
+-- 插入一个待计算的晚期项目数据，功能点规模较大
+insert into tb_measure_res values(4, 250, 1.05, 262.5, 38, 3, 0.9, 1.0);
+
+-- 插入一个完成状态的中期项目数据，较大规模项目
+insert into tb_measure_res values(5, 220, 1.25, 275.0, 44, 2, 1.15, 1.26);
 
 
 

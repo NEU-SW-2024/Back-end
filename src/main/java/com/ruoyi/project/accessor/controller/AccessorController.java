@@ -1,5 +1,6 @@
 package com.ruoyi.project.accessor.controller;
 
+import com.ruoyi.project.accessor.domain.FeatDAO;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.project.accessor.domain.*;
 import com.ruoyi.project.accessor.service.AccessorService;
@@ -19,6 +20,14 @@ public class AccessorController {
 
     @Resource
     private AccessorService accessorService;
+
+
+    //前端通过项目id获取项目名称
+    @GetMapping("/getProjectName")
+    @ApiOperation("获取项目名称")
+    public AjaxResult getProjectName(@RequestParam("projectId") Integer projectId){
+        return AjaxResult.success(accessorService.getProjectNameById(projectId));
+    }
 
     /**
      * 录入功能点 有多个功能点记录
@@ -81,5 +90,20 @@ public class AccessorController {
     @GetMapping("/getStatus")
     public AjaxResult getStatus(@RequestParam("projectId") Integer projectId){
         return accessorService.getStatus(projectId);
+    }
+
+    @GetMapping("/getPendingProjects")
+    @ApiOperation("获取所有待评估项目")
+    public AjaxResult getPendingProjects() {
+        // 调用服务层方法来获取数据
+        return accessorService.getPendingProjects();
+    }
+
+    //前端通过项目id获取项目的DFP
+    @GetMapping("/getDFP")
+    @ApiOperation("获取DFP")
+    public AjaxResult getDFP(@RequestParam("projectId") Integer projectId){
+        System.out.println("accessorService.getDFP:"+accessorService.getDFP(projectId));
+        return AjaxResult.success(accessorService.getDFP(projectId));
     }
 }
