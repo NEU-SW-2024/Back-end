@@ -15,7 +15,7 @@ create table sys_dept (
                           status            char(1)         default '0'                comment '部门状态（0正常 1停用）',
                           del_flag          char(1)         default '0'                comment '删除标志（0代表存在 2代表删除）',
                           create_by         varchar(64)     default ''                 comment '创建者',
-                          create_time 	    datetime                                   comment '创建时间',
+                          create_time       datetime                                   comment '创建时间',
                           update_by         varchar(64)     default ''                 comment '更新者',
                           update_time       datetime                                   comment '更新时间',
                           primary key (dept_id)
@@ -68,8 +68,9 @@ create table sys_user (
 -- ----------------------------
 insert into sys_user values(1,  103, 'admin', '若依', '00', 'ry@163.com', '15888888888', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', sysdate(), 'admin', sysdate(), '', null, '管理员');
 insert into sys_user values(2,  105, 'ry',    '若依', '00', 'ry@qq.com',  '15666666666', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', sysdate(), 'admin', sysdate(), '', null, '测试员');
-
-
+insert into sys_user values(3,  106, 'ry2',    '若依', '00', 'ry@qq.com',  '15666666666', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', sysdate(), 'ry', sysdate(), '', null, '测试员');
+insert into sys_user values(4,  107, 'ry3',    '若依', '00', 'ry@qq.com',  '15666666666', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', sysdate(), 'admin', sysdate(), '', null, '测试员');
+insert into sys_user values(5,  108, 'ry4',    '若依', '00', 'ry@qq.com',  '15666666666', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', sysdate(), 'ry3', sysdate(), '', null, '测试员');
 -- ----------------------------
 -- 3、岗位信息表
 -- ----------------------------
@@ -83,7 +84,7 @@ create table sys_post
     status        char(1)         not null                   comment '状态（0正常 1停用）',
     create_by     varchar(64)     default ''                 comment '创建者',
     create_time   datetime                                   comment '创建时间',
-    update_by     varchar(64)     default ''			       comment '更新者',
+    update_by     varchar(64)     default ''                 comment '更新者',
     update_time   datetime                                   comment '更新时间',
     remark        varchar(500)    default null               comment '备注',
     primary key (post_id)
@@ -128,6 +129,7 @@ insert into sys_role values('2', '租户管理员',    'tenant', 2, 1, 1, 1, '0'
 insert into sys_role values('3', '项目评估师',    'accessor', 3, 1, 1, 1, '0', '0', 'admin', sysdate(), '', null, '项目评估师');
 insert into sys_role values('4', '项目审核员',    'auditor', 4, 1, 1, 1, '0', '0', 'admin', sysdate(), '', null, '项目审核员');
 
+
 -- ----------------------------
 -- 5、菜单权限表
 -- ----------------------------
@@ -168,15 +170,21 @@ insert into sys_menu values('1', '系统管理', '0', '1', 'system',           n
 insert into sys_menu values('100',  '用户管理', '1',   '1', 'user',       'system/user/index',        '', '', 1, 0, 'C', '0', '0', 'system:user:list',        'user',          'admin', sysdate(), '', null, '用户管理菜单');
 insert into sys_menu values('101',  '角色管理', '1',   '2', 'role',       'system/role/index',        '', '', 1, 0, 'C', '0', '0', 'system:role:list',        'peoples',       'admin', sysdate(), '', null, '角色管理菜单');
 insert into sys_menu values('102',  '菜单管理', '1',   '3', 'menu',       'system/menu/index',        '', '', 1, 0, 'C', '0', '0', 'system:menu:list',        'tree-table',    'admin', sysdate(), '', null, '菜单管理菜单');
+
+INSERT INTO sys_menu VALUES('103', '生成报告', '1', '4', 'generateReport', 'system/generateReport/index', '', '', 1, 0, 'C', '0', '0', 'report:generate:list', 'edit', 'admin', sysdate(), '', null, '生成报告菜单');
+INSERT INTO sys_menu VALUES('104', '数据分析', '1', '5', 'dataAnalysis', 'system/analysisData/index', '', '', 1, 0, 'C', '0', '0', 'analysis:data:list', 'tree', 'admin', sysdate(), '', null, '数据分析菜单');
+INSERT INTO sys_menu VALUES('105', '审核报告', '1', '6', 'auditReport', 'system/reportAudit/index', '', '', 1, 0, 'C', '0', '0', 'report:audit:list', 'log', 'admin', sysdate(), '', null, '审核报告菜单');
+
 -- insert into sys_menu values('103',  '部门管理', '1',   '4', 'dept',       'system/dept/index',        '', '', 1, 0, 'C', '0', '0', 'system:dept:list',        'tree',          'admin', sysdate(), '', null, '部门管理菜单');
 -- insert into sys_menu values('104',  '岗位管理', '1',   '5', 'post',       'system/post/index',        '', '', 1, 0, 'C', '0', '0', 'system:post:list',        'post',          'admin', sysdate(), '', null, '岗位管理菜单');
 -- insert into sys_menu values('105',  '字典管理', '1',   '6', 'dict',       'system/dict/index',        '', '', 1, 0, 'C', '0', '0', 'system:dict:list',        'dict',          'admin', sysdate(), '', null, '字典管理菜单');
 -- insert into sys_menu values('106',  '参数设置', '1',   '7', 'config',     'system/config/index',      '', '', 1, 0, 'C', '0', '0', 'system:config:list',      'edit',          'admin', sysdate(), '', null, '参数设置菜单');
-insert into sys_menu values('107',  '通知公告', '1',   '8', 'notice',     'system/notice/index',      '', '', 1, 0, 'C', '0', '0', 'system:notice:list',      'message',       'admin', sysdate(), '', null, '通知公告菜单');
+-- insert into sys_menu values('107',  '通知公告', '1',   '8', 'notice',     'system/notice/index',      '', '', 1, 0, 'C', '0', '0', 'system:notice:list',      'message',       'admin', sysdate(), '', null, '通知公告菜单');
 -- insert into sys_menu values('108',  '日志管理', '1',   '9', 'log',        '',                         '', '', 1, 0, 'M', '0', '0', '',                        'log',           'admin', sysdate(), '', null, '日志管理菜单');
 insert into sys_menu values('6601',  '项目管理', '1',   '8', 'project',     'system/project/index',      '', '', 1, 0, 'C', '0', '0', 'system:project:list',      'message',       'admin', sysdate(), '', null, '项目菜单');
-
-insert into sys_menu values('109',  '在线用户', '2',   '1', 'online',     'monitor/online/index',     '', '', 1, 0, 'C', '0', '0', 'monitor:online:list',     'online',        'admin', sysdate(), '', null, '在线用户菜单');
+insert into sys_menu values('6080', '功能点分析', '0', '2', 'accessor1',         'system/accessor1/index', '', '', 1, 0, 'C', '0', '0', '', '',  'accessor', sysdate(), '', null, '系统监控目录');
+insert into sys_menu values('6081', '测试功能点', '0', '2', 'accessor2',         'system/accessor2/index', '', '', 1, 0, 'C', '0', '0', '', '',  'accessor', sysdate(), '', null, '系统监控目录');
+insert into sys_menu values('6082', '测试功能点2', '0', '2', 'accessor3',         'system/accessor2/AssessedPage', '', '', 1, 0, 'C', '0', '0', '', '',  'accessor', sysdate(), '', null, '系统监控目录');insert into sys_menu values('109',  '在线用户', '2',   '1', 'online',     'monitor/online/index',     '', '', 1, 0, 'C', '0', '0', 'monitor:online:list',     'online',        'admin', sysdate(), '', null, '在线用户菜单');
 insert into sys_menu values('110',  '定时任务', '2',   '2', 'job',        'monitor/job/index',        '', '', 1, 0, 'C', '0', '0', 'monitor:job:list',        'job',           'admin', sysdate(), '', null, '定时任务菜单');
 insert into sys_menu values('111',  '数据监控', '2',   '3', 'druid',      'monitor/druid/index',      '', '', 1, 0, 'C', '0', '0', 'monitor:druid:list',      'druid',         'admin', sysdate(), '', null, '数据监控菜单');
 insert into sys_menu values('112',  '服务监控', '2',   '4', 'server',     'monitor/server/index',     '', '', 1, 0, 'C', '0', '0', 'monitor:server:list',     'server',        'admin', sysdate(), '', null, '服务监控菜单');
@@ -268,6 +276,7 @@ insert into sys_menu values('1062', '项目新增', '6601', '2', '#', '', '', ''
 insert into sys_menu values('1063', '项目修改', '6601', '3', '#', '', '', '', 1, 0, 'F', '0', '0', 'system:project:edit',        '#', 'admin', sysdate(), '', null, '');
 insert into sys_menu values('1064', '项目删除', '6601', '4', '#', '', '', '', 1, 0, 'F', '0', '0', 'system:project:remove',      '#', 'admin', sysdate(), '', null, '');
 
+
 -- ----------------------------
 -- 6、用户和角色关联表  用户N-1角色
 -- ----------------------------
@@ -283,7 +292,9 @@ create table sys_user_role (
 -- ----------------------------
 insert into sys_user_role values ('1', '1');
 insert into sys_user_role values ('2', '2');
-
+insert into sys_user_role values ('3', '3');
+insert into sys_user_role values ('4', '2');
+insert into sys_user_role values ('5', '4');
 
 -- ----------------------------
 -- 7、角色和菜单关联表  角色1-N菜单
@@ -296,7 +307,7 @@ create table sys_role_menu (
 ) engine=innodb comment = '角色和菜单关联表';
 
 -- ----------------------------
--- 初始化-角色和菜单关联表数据 这里管理用户权限
+-- 初始化-角色和菜单关联表数据
 -- ----------------------------
 insert into sys_role_menu values ('2', '1');
 insert into sys_role_menu values ('2', '2');
@@ -389,8 +400,6 @@ insert into sys_role_menu values ('2', '1061');
 insert into sys_role_menu values ('2', '1062');
 insert into sys_role_menu values ('2', '1063');
 insert into sys_role_menu values ('2', '1064');
-
-
 -- ----------------------------
 -- 8、角色和部门关联表  角色1-N部门
 -- ----------------------------
@@ -563,7 +572,7 @@ insert into sys_config values(1, '主框架页-默认皮肤样式名称',     's
 insert into sys_config values(2, '用户管理-账号初始密码',         'sys.user.initPassword',         '123456',        'Y', 'admin', sysdate(), '', null, '初始化密码 123456' );
 insert into sys_config values(3, '主框架页-侧边栏主题',           'sys.index.sideTheme',           'theme-dark',    'Y', 'admin', sysdate(), '', null, '深色主题theme-dark，浅色主题theme-light' );
 insert into sys_config values(4, '账号自助-验证码开关',           'sys.account.captchaEnabled',    'true',          'Y', 'admin', sysdate(), '', null, '是否开启验证码功能（true开启，false关闭）');
-insert into sys_config values(5, '账号自助-是否开启用户注册功能', 'sys.account.registerUser',      'true',         'Y', 'admin', sysdate(), '', null, '是否开启注册用户功能（true开启，false关闭）');
+insert into sys_config values(5, '账号自助-是否开启用户注册功能', 'sys.account.registerUser',      'false',         'Y', 'admin', sysdate(), '', null, '是否开启注册用户功能（true开启，false关闭）');
 insert into sys_config values(6, '用户登录-黑名单列表',           'sys.login.blackIPList',         '',              'Y', 'admin', sysdate(), '', null, '设置登录IP黑名单限制，多个匹配项以;分隔，支持匹配（*通配、网段）');
 
 
@@ -677,7 +686,7 @@ create table gen_table (
                            gen_path          varchar(200)    default '/'                comment '生成路径（不填默认项目路径）',
                            options           varchar(1000)                              comment '其它生成选项',
                            create_by         varchar(64)     default ''                 comment '创建者',
-                           create_time 	    datetime                                   comment '创建时间',
+                           create_time      datetime                                   comment '创建时间',
                            update_by         varchar(64)     default ''                 comment '更新者',
                            update_time       datetime                                   comment '更新时间',
                            remark            varchar(500)    default null               comment '备注',
@@ -709,11 +718,77 @@ create table gen_table_column (
                                   dict_type         varchar(200)    default ''                 comment '字典类型',
                                   sort              int                                        comment '排序',
                                   create_by         varchar(64)     default ''                 comment '创建者',
-                                  create_time 	    datetime                                   comment '创建时间',
+                                  create_time       datetime                                   comment '创建时间',
                                   update_by         varchar(64)     default ''                 comment '更新者',
                                   update_time       datetime                                   comment '更新时间',
                                   primary key (column_id)
 ) engine=innodb auto_increment=1 comment = '代码生成业务表字段';
+
+
+-- ----------------------------
+-- 20、评估结果表
+-- ----------------------------
+drop table if exists assessment_results;
+create table assessment_results (
+                                    res_id                    bigint(20)      not null auto_increment    comment '评估结果ID',
+                                    project_id                bigint(20)      not null                   comment '关联项目的ID，标识当前评估结果所属的项目',
+                                    std_id                    bigint(20)      not null                   comment '关联评估标准的ID，标识当前评估结果所属的标准',
+                                    total_cost                decimal(12,2)   default 0.00               comment '项目评估的总造价，包含人工成本、风险成本、质量成本等',
+                                    labor_cost                decimal(12,2)   default 0.00               comment '人工成本，用于项目开发的直接人力费用',
+                                    risk_cost                 decimal(12,2)   default 0.00               comment '风险附加成本，根据风险因子计算得出的额外成本',
+                                    quality_cost              decimal(12,2)   default 0.00               comment '质量附加成本，根据质量因子计算得出的额外成本',
+                                    dev_service_cost          decimal(12,2)   default 0.00               comment '开发服务费用，开发工具和外包服务相关的直接费用',
+                                    adjusted_dev_service_cost decimal(12,2)   default 0.00               comment '调整后开发服务费用，考虑优化或额外因素调整的开发费用',
+                                    res_sugg                  varchar(500)    default ''                 comment '评估结果的建议说明，例如优化成本或资源分配的建议',
+                                    created_at                datetime                                   comment '评估结果记录的创建时间',
+                                    updated_at                datetime                                   comment '最近一次更新评估结果的时间',
+                                    primary key (res_id)
+) engine=innodb auto_increment=1000 comment = '评估结果表';
+
+-- ----------------------------
+-- 初始化-评估结果表数据
+-- ----------------------------
+insert into assessment_results
+(project_id, std_id, total_cost, labor_cost, risk_cost, quality_cost, dev_service_cost, adjusted_dev_service_cost, res_sugg, created_at, updated_at)
+values
+    (1, 1000, 100000.00, 70000.00, 10000.00, 5000.00, 5000.00, 4500.00, '建议优化人力资源配置，减少风险成本', now(), now()),
+    (2, 1001, 80000.00, 50000.00, 8000.00, 4000.00, 6000.00, 5500.00, '考虑增加团队培训以提升质量', now(), now()),
+    (3, 1002, 120000.00, 80000.00, 12000.00, 6000.00, 10000.00, 9000.00, '建议使用自动化工具降低开发服务费用', now(), now()),
+    (4, 1003, 95000.00, 60000.00, 9000.00, 5000.00, 7000.00, 6500.00, '优化供应商选择以减少成本', now(), now());
+
+-- ----------------------------
+-- 1、造价标准表
+-- ----------------------------
+drop table if exists assessment_standard;
+create table assessment_standard (
+                                     std_id              bigint(20)      not null auto_increment    comment '标准ID',
+                                     std_name            varchar(100)    default ''                 comment '标准名称',
+                                     std_type            varchar(50)     default ''                 comment '标准类型（地区标准、团队标准、规定标准）',
+                                     std_status          tinyint(1)      default 1                  comment '标准状态（1启用 0停用）',
+                                     pdr_value           decimal(10,2)   default 0.00              comment '标准PDR取值',
+                                     rsk_factor          decimal(3,1)    default 1.0              comment '风险因子',
+                                     quality_factor      decimal(3,1)    default 1.0              comment '质量因子',
+                                     swf                 decimal(3,1)    default 1.0              comment '软件复杂度因子',
+                                     rdf                 decimal(3,1)    default 1.0              comment '开发复杂度因子',
+                                     conversion_factor   decimal(5,2)    default 21.75            comment '人月折算系数',
+                                     dnc                 decimal(10,2)   default 0.00             comment '非人力成本',
+                                     created_by          varchar(64)     default ''               comment '创建者',
+                                     created_at          datetime                                comment '创建时间',
+                                     updated_at          datetime                                comment '更新时间',
+                                     primary key (std_id)
+) engine=innodb auto_increment=1000 comment = '造价标准表';
+
+-- ----------------------------
+-- 初始化-造价标准表数据
+-- ----------------------------
+INSERT INTO assessment_standard
+(std_name, std_type, std_status, pdr_value, rsk_factor, quality_factor, swf, rdf, conversion_factor, dnc, created_by, created_at, updated_at)
+VALUES
+    ('北京地区标准开发规范', '地区标准', 1, 8.5, 1.2, 1.1, 1.2, 1.3, 21.75, 2000.00, 'admin', NOW(), NOW()),
+    ('敏捷开发团队标准', '团队标准', 1, 7.5, 1.0, 1.0, 1.1, 1.2, 21.75, 1500.00, 'admin', NOW(), NOW()),
+    ('企业级应用开发规范', '规定标准', 1, 9.0, 1.4, 1.2, 1.3, 1.4, 21.75, 3000.00, 'admin', NOW(), NOW()),
+    ('移动应用开发标准', '团队标准', 1, 6.5, 1.0, 1.0, 1.0, 1.1, 21.75, 1000.00, 'admin', NOW(), NOW()),
+    ('高可用系统开发标准', '规定标准', 1, 10.0, 1.4, 1.3, 1.4, 1.5, 21.75, 4000.00, 'admin', NOW(), NOW());
 -- ----------------------------
 -- 20、项目表
 -- ----------------------------
@@ -743,3 +818,87 @@ insert into sys_project (project_id, tenant_id, name, description, project_conte
 values (1, 1, '若依管理系统', '若依管理系统', null, null, null, null, null, 'admin', sysdate(), '', null, '管理员');
 insert into sys_project (project_id, tenant_id, name, description, project_content, accessor_id, auditor_id, project_status, estimated_time, create_by, create_time, update_by, update_time, remark)
 values (2, 1, '若依代码生成', '若依代码生成', null, null, null, null, null, 'admin', sysdate(), '', null, '管理员');
+
+
+-- ----------------------------
+-- 21、度量表
+-- ----------------------------
+drop table if exists tb_measure;
+create table tb_measure(
+                           project_id int not null comment '项目ID',
+                           measure_name varchar(20) not null comment '度量名称',
+                           DI int not null comment '度量分数0-5'
+)  engine=innodb auto_increment=1 comment = '度量表';
+
+-- ----------------------------
+-- 22、评估结果表
+-- ----------------------------
+drop table if exists tb_measure_res;
+create table tb_measure_res(
+                               project_id int not null comment '项目ID',
+                               UPF int not null comment '功能点分数总和',
+                               VAF float not null comment '调整系数',
+                               DFP float not null comment '调整后的功能点数',
+                               GSC int not null comment 'DI总和',
+                               status int not null comment '项目状态：0待评估1待审核2完成',
+                               S float not null comment '规模变更调整因子',
+                               CF float not null comment '项目进度,立项2,招标1.5,早期1.26,中期1.26,晚期1.0'
+) engine=innodb auto_increment=1 comment = '评估结果表';
+
+-- ----------------------------
+-- 23、功能点分数表
+-- ----------------------------
+drop table if exists tb_feat_score;
+create table tb_feat_score(
+                              score_id int not null auto_increment primary key comment '分数表的id',
+                              feat_tag varchar(20) not null comment '功能点标签',
+                              feat_diff int not null comment '复杂度:0低，1中，2高',
+                              score int not null comment '功能点标签+复杂度对应的分数'
+) engine=innodb auto_increment=1 comment = '功能点分数表';
+
+insert into tb_feat_score(feat_tag,feat_diff,score) values ('EI',0,3),
+                                                           ('EI',1,4),
+                                                           ('EI',2,6),
+                                                           ('EO',0,4),
+                                                           ('EO',1,5),
+                                                           ('EO',2,7),
+                                                           ('EQ',0,3),
+                                                           ('EQ',1,4),
+                                                           ('EQ',2,6),
+                                                           ('ILF',0,7),
+                                                           ('ILF',1,10),
+                                                           ('ILF',2,15),
+                                                           ('EIF',0,5),
+                                                           ('EIF',1,7),
+                                                           ('EIF',2,10);
+
+-- ----------------------------
+-- 20、功能点表
+-- ----------------------------
+drop table if exists tb_feat;
+create table tb_feat(
+                        project_id int not null comment '项目ID',
+                        feat_name varchar(20) not null comment '功能点名称',
+                        feat_descr varchar(200) not null comment '功能点描述',
+                        score_id int not null  comment '分数表中对应的id',
+                        foreign key (score_id) references tb_feat_score(score_id)
+) engine=innodb auto_increment=1 comment = '功能表';
+
+
+-- ----------------------------
+-- 项目报告状态表
+-- ----------------------------
+drop table if exists project_report_status;
+create table project_report_status (
+                                       project_id bigint(20) not null comment '项目ID',
+                                       primary key (project_id),
+                                       foreign key (project_id) references sys_project(project_id) on delete cascade
+) engine=innodb auto_increment=1 comment = '项目报告状态表';
+
+-- ----------------------------
+-- 初始化数据插入
+-- ----------------------------
+insert into project_report_status (project_id)
+values
+    (1),  -- 项目ID 1，已生成报告
+    (2);  -- 项目ID 2，已生成报告
