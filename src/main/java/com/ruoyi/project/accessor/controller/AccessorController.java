@@ -1,5 +1,6 @@
 package com.ruoyi.project.accessor.controller;
 
+import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.project.accessor.domain.*;
 import com.ruoyi.project.accessor.service.AccessorService;
 import io.swagger.annotations.Api;
@@ -41,7 +42,8 @@ public class AccessorController {
      */
     @PostMapping("/saveFunc")
     @ApiOperation("保存功能点")
-    public Result saveFunc(@RequestBody ArrayList<FeatDAO> featDAOS){
+    public AjaxResult saveFunc(@RequestBody ArrayList<FeatDAO> featDAOS){
+        System.out.println(featDAOS);
         return accessorService.saveFunc(featDAOS);
     }
 
@@ -50,7 +52,7 @@ public class AccessorController {
      */
     @GetMapping("/getUPF")
     @ApiOperation("计算UPF")
-    public Result getUPF(@RequestParam("project_id") Integer projectId) {
+    public AjaxResult getUPF(@RequestParam("project_id") Integer projectId) {
         return accessorService.getUPF(projectId);
     }
 
@@ -59,7 +61,7 @@ public class AccessorController {
      */
     @GetMapping("/getFunc")
     @ApiOperation("功能点回显")
-    public Result getFunc(@RequestParam("project_id") Integer projectId){
+    public AjaxResult getFunc(@RequestParam("project_id") Integer projectId){
         return accessorService.getFunc(projectId);
     }
 
@@ -68,7 +70,7 @@ public class AccessorController {
      */
     @PostMapping("/saveMeasure/{cf}")
     @ApiOperation("保存度量表")
-    public Result saveMeasure(@PathVariable("cf") Float cf, @RequestBody List<Measure> measures){
+    public AjaxResult saveMeasure(@PathVariable("cf") Float cf, @RequestBody List<Measure> measures){
         return accessorService.saveMeasure(cf, measures);
     }
 
@@ -77,7 +79,20 @@ public class AccessorController {
      */
     @GetMapping("/getAll")
     @ApiOperation("返回所有结果")
-    public Result getAll(@RequestParam("projectId") Integer projectId){
+    public AjaxResult getAll(@RequestParam("projectId") Integer projectId){
         return accessorService.getAll(projectId);
     }
+
+    @GetMapping("/getProjects")
+@ApiOperation("根据评估师ID获取评估师对应的所有项目")
+public AjaxResult getProjects(@RequestParam("accessorId") Integer accessorId) {
+        System.out.println("accessorId:"+accessorId);
+        System.out.println(accessorService.getProjects(accessorId));
+        return accessorService.getProjects(accessorId);
+}
+
+@GetMapping("/getStatus")
+public AjaxResult getStatus(@RequestParam("projectId") Integer projectId){
+return accessorService.getStatus(projectId);
+}
 }
