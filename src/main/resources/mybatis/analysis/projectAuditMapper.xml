@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.ruoyi.project.analysis.mapper.ProjectAuditMapper">
+
+    <!-- 插入项目报告状态 -->
+    <insert id="insertProjectReportStatus" parameterType="long">
+        INSERT INTO project_report_status (project_id)
+        VALUES (#{projectId})
+    </insert>
+
+    <update id="updateStatusToCompleted" parameterType="long">
+        UPDATE tb_measure_res
+        SET status = 2
+        WHERE project_id = #{projectId} AND status = 1
+    </update>
+
+    <!-- 更新项目状态：从待审核（1）改为待评估（0） -->
+    <update id="updateStatusToPendingEvaluation" parameterType="long">
+        UPDATE tb_measure_res
+        SET status = 0
+        WHERE project_id = #{projectId} AND status = 1
+    </update>
+
+</mapper>

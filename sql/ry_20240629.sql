@@ -891,8 +891,7 @@ create table tb_feat(
 drop table if exists project_report_status;
 create table project_report_status (
                                        project_id bigint(20) not null comment '项目ID',
-                                       primary key (project_id),
-                                       foreign key (project_id) references sys_project(project_id) on delete cascade
+                                       primary key (project_id)
 ) engine=innodb auto_increment=1 comment = '项目报告状态表';
 
 -- ----------------------------
