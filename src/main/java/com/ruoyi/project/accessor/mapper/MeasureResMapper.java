@@ -17,5 +17,5 @@ MeasureRes selectByProjectId(Integer projectId);
 Integer selectStatusByProjectId(Integer projectId);
 
     @Delete("delete from vue.tb_measure_res where project_id=#{projectId}")
-void deleteByProjectId(Integer projectId);
+    void deleteByProjectId(Integer projectId);
 }

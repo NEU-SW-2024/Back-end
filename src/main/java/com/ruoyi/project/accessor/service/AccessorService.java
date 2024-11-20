@@ -14,11 +14,13 @@ public interface AccessorService {
 
     AjaxResult getFunc(Integer projectId);
 
-    AjaxResult saveMeasure(Float cf, List<Measure> measures);
+    AjaxResult saveMeasure(List<Measure> measures);
 
     AjaxResult getAll(Integer projectId);
 
-    AjaxResult getProjects(Integer accessorId);
+    AjaxResult getProjects();
 
     AjaxResult getStatus(Integer projectId);
+
+    AjaxResult getProject(Integer projectId);
 }

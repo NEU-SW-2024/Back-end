@@ -18,34 +18,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/dev-api/accessor")
+@RequestMapping("/accessor")
 @Api("评估师")
 public class AccessorController {
 
     @Resource
     private AccessorService accessorService;
-    @Autowired
-    private SysProfileController sysProfileController;
-    @Autowired
-    private SysProjectMapper sysProjectMapper;
-
-//    /**
-//     * 批量更新功能点
-//     */
-//    @PostMapping("/updateFunc")
-//    public Result updateFunc(@RequestBody List<FeatDAO> featDAOS){
-//        return accessorService.updateFunc(featDAOS);
-//    }
-//
-//    /**
-//     * 删除功能点（非批量）
-//     * @param deleteRequest
-//     * @return
-//     */
-//    @PostMapping("/deleteFunc")
-//    public Result deleteFunc(@RequestBody DeleteFuncRequest deleteRequest){
-//        return accessorService.deleteFunc(deleteRequest);
-//    }
 
     /**
      * 录入功能点 有多个功能点记录
@@ -78,10 +56,10 @@ public class AccessorController {
     /**
      * 保存度量表 传入的是多个度量记录 返回VAF（调整系数）
      */
-    @PostMapping("/saveMeasure/{cf}")
+    @PostMapping("/saveMeasure")
     @ApiOperation("保存度量表")
-    public AjaxResult saveMeasure(@PathVariable("cf") Float cf, @RequestBody List<Measure> measures){
-        return accessorService.saveMeasure(cf, measures);
+    public AjaxResult saveMeasure(@RequestBody List<Measure> measures){
+        return accessorService.saveMeasure(measures);
     }
 
     /**
@@ -94,19 +72,19 @@ public class AccessorController {
     }
 
     @GetMapping("/getProjects")
-@ApiOperation("根据评估师ID获取评估师对应的所有项目")
-public AjaxResult getProjects(@RequestParam("accessorId") Integer accessorId) {
-        System.out.println("accessorId:"+accessorId);
-        System.out.println(sysProjectMapper.selectProjectList(null));
-        List <SysProject>sysProjectMapperList = sysProjectMapper.selectProjectList(null);
-        //筛选所有accessorId为accessorId的项目参考下面这行
-//        return list.stream().filter(u -> u.getCreateBy().equals(SecurityUtils.getUsername()) || u.getUserName().equals(SecurityUtils.getUsername())).collect(Collectors.toList());
-        List<SysProject> sysProjectList = sysProjectMapperList.stream().filter(u -> u.getAccessorId().equals(SecurityUtils.getUserId())).collect(Collectors.toList());
-        return AjaxResult.success(sysProjectList);
-}
+    @ApiOperation("根据评估师ID获取评估师对应的所有项目")
+    public AjaxResult getProjects() {
+        return accessorService.getProjects();
+    }
 
-@GetMapping("/getStatus")
-public AjaxResult getStatus(@RequestParam("projectId") Integer projectId){
-return accessorService.getStatus(projectId);
-}
+    @GetMapping("/getStatus")
+    public AjaxResult getStatus(@RequestParam("projectId") Integer projectId){
+        return accessorService.getStatus(projectId);
+    }
+
+    @GetMapping("/getProject")
+    @ApiOperation("根据ID获取项目")
+    public AjaxResult getProject(@RequestParam("projectId") Integer projectId) {
+        return accessorService.getProject(projectId);
+    }
 }
