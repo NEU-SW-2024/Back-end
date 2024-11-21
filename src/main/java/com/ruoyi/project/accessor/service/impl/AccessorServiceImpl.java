@@ -27,6 +27,11 @@ public class AccessorServiceImpl implements AccessorService {
     @Resource
     private SysProjectMapper sysProjectMapper;
 
+    @Override
+    public float getDFP(Integer projectId) {
+        Float DFP = measureResMapper.selectDFP(projectId);
+        return DFP != null ? DFP.floatValue() : 0.0f;
+    }
     /**
      * 保存用户输入的功能点名称、功能点描述、分类标签、复杂度(每个功能点有一个)
      */
@@ -196,10 +201,43 @@ public class AccessorServiceImpl implements AccessorService {
         System.out.println(AjaxResult.success(status));
         return AjaxResult.success(status);
     }
-
+    //通过项目id获取项目名称
+    @Override
+    public String getProjectNameById(Integer projectId) {
+        SysProject sysProject = sysProjectMapper.selectProjectById(Long.valueOf(projectId));
+        return sysProject.getName();
+    }
     @Override
     public AjaxResult getProject(Integer projectId) {
         SysProject sysProject = sysProjectMapper.selectProjectById(Long.valueOf(projectId));
         return AjaxResult.success(sysProject);
     }
+
+    @Override
+    public AjaxResult getPendingProjects() {
+        List<ProjectMeasureRes> projectList = new ArrayList<>();
+        List<MeasureRes> projects = measureResMapper.selectAll();
+
+        System.out.println(projects);
+
+
+        System.out.println("Total projects: " + projects.size());
+        for (MeasureRes project : projects) {
+            Integer status = measureResMapper.selectStatusByProjectId(project.getProjectId());
+            System.out.println("Project ID: " + project.getProjectId() + ", Status: " + status);
+            if (status != null && status == 1) {
+                // ... 其余代码不变
+                ProjectMeasureRes dto = new ProjectMeasureRes();
+                dto.setProjectId(project.getProjectId());
+                String name = getProjectNameById(project.getProjectId());
+                dto.setName(name);
+                dto.setProjectStatus(project.getStatus());
+                dto.setDFP(project.getDFP());
+                projectList.add(dto);
+            }
+        }
+        return AjaxResult.success(projectList);
+    }
+
+
 }

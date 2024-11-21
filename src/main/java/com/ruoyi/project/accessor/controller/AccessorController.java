@@ -81,4 +81,26 @@ public class AccessorController {
     public AjaxResult getProject(@RequestParam("projectId") Integer projectId) {
         return accessorService.getProject(projectId);
     }
+    //前端通过项目id获取项目名称
+    @GetMapping("/getProjectName")
+    @ApiOperation("获取项目名称")
+    public AjaxResult getProjectName(@RequestParam("projectId") Integer projectId){
+        return AjaxResult.success(accessorService.getProjectNameById(projectId));
+    }
+
+    @GetMapping("/getPendingProjects")
+    @ApiOperation("获取所有待评估项目")
+    public AjaxResult getPendingProjects() {
+        // 调用服务层方法来获取数据
+        return accessorService.getPendingProjects();
+    }
+
+    //前端通过项目id获取项目的DFP
+    @GetMapping("/getDFP")
+    @ApiOperation("获取DFP")
+    public AjaxResult getDFP(@RequestParam("projectId") Integer projectId){
+        System.out.println("accessorService.getDFP:"+accessorService.getDFP(projectId));
+        return AjaxResult.success(accessorService.getDFP(projectId));
+    }
+
 }

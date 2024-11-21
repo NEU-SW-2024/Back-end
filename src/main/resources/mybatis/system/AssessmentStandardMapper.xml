@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.mapper.AssessmentStandardMapper">
+
+<resultMap id="AssessmentStdResult" type="com.ruoyi.project.system.domain.SysAssessmentStd">
+        <id property="stdId" column="std_id"/>
+        <result property="stdName" column="std_name"/>
+        <result property="stdType" column="std_type"/>
+        <result property="stdStatus" column="std_status"/>
+        <result property="pdrValue" column="pdr_value"/>
+        <result property="rskFactor" column="rsk_factor"/>
+        <result property="qualityFactor" column="quality_factor"/>
+        <result property="swf" column="swf"/>
+        <result property="rdf" column="rdf"/>
+        <result property="conversionFactor" column="conversion_factor"/>
+        <result property="costRate" column="cost_rate"/>
+        <result property="dnc" column="dnc"/>
+    </resultMap>
+
+    <select id="selectStandardList" resultMap="AssessmentStdResult">
+        SELECT * FROM assessment_standard WHERE 1=1
+        <if test="stdName != null and stdName.trim() != ''">
+            AND std_name LIKE CONCAT('%', #{stdName}, '%')
+        </if>
+    </select>
+
+    <select id="selectStandardById" resultMap="AssessmentStdResult">
+        SELECT * FROM assessment_standard WHERE std_id = #{stdId}
+    </select>
+
+    <insert id="insertStandard" useGeneratedKeys="true" keyProperty="stdId">
+        INSERT INTO assessment_standard (
+            std_name, std_type, std_status, pdr_value, rsk_factor, quality_factor, swf, rdf, conversion_factor, cost_rate, dnc
+        ) VALUES (
+                     #{stdName}, #{stdType}, #{stdStatus}, #{pdrValue}, #{rskFactor}, #{qualityFactor}, #{swf}, #{rdf}, #{conversionFactor}, #{costRate}, #{dnc}
+                 )
+    </insert>
+
+    <update id="updateStandard">
+        UPDATE assessment_standard
+        SET
+            std_name = #{stdName}, std_type = #{stdType}, std_status = #{stdStatus}, pdr_value = #{pdrValue},
+            rsk_factor = #{rskFactor}, quality_factor = #{qualityFactor}, swf = #{swf}, rdf = #{rdf},
+            conversion_factor = #{conversionFactor}, cost_rate = #{costRate}, dnc = #{dnc}
+        WHERE std_id = #{stdId}
+    </update>
+
+    <delete id="deleteStandardById">
+        DELETE FROM assessment_standard WHERE std_id = #{stdId}
+    </delete>
+</mapper>

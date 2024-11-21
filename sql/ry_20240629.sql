@@ -164,10 +164,22 @@ insert into sys_menu values('1', '系统管理', '0', '1', 'system',           n
 insert into sys_menu values('6080', '评估项目预览', '0', '2', 'accessor1',         'system/accessor1/index', '', '', 1, 0, 'C', '0', '0', '', '',  'accessor', sysdate(), '', null, '系统监控目录');
 insert into sys_menu values('6081', '功能点计算', '0', '2', 'accessor2',         'system/accessor2/index', '', '', 1, 0, 'C', '1', '0', '', '',  'accessor', sysdate(), '', null, '系统监控目录');
 insert into sys_menu values('6082', '功能点结果展示', '0', '2', 'accessor3',         'system/accessor2/AssessedPage', '', '', 1, 0, 'C', '1', '0', '', '',  'accessor', sysdate(), '', null, '系统监控目录');
+
+insert into sys_menu values('6083', '综合造价评估', '0', '1', 'standards',           null, '', '', 1, 0, 'M', '0', '0', '', 'system',   'admin', sysdate(), '', null, '造价评估目录');
 -- insert into sys_menu values('2', '系统监控', '0', '2', 'monitor',          null, '', '', 1, 0, 'M', '0', '0', '', 'monitor',  'admin', sysdate(), '', null, '系统监控目录');
 -- insert into sys_menu values('3', '系统工具', '0', '3', 'tool',             null, '', '', 1, 0, 'M', '0', '0', '', 'tool',     'admin', sysdate(), '', null, '系统工具目录');
 -- insert into sys_menu values('4', '若依官网', '0', '4', 'http://ruoyi.vip', null, '', '', 0, 0, 'M', '0', '0', '', 'guide',    'admin', sysdate(), '', null, '若依官网地址');
 -- 二级菜单
+
+insert into sys_menu values('6084', '标准列表', '6083', '2', 'list',           'standard/list/index', '', '', 1, 0, 'M', '0', '0', '', 'system',   'admin', sysdate(), '', null, '造价评估目录');
+insert into sys_menu values('6085', '造价计算', '6083', '2', 'calculation',           'standard/calculation/index', '', '', 1, 0, 'M', '0', '0', '', 'system',   'admin', sysdate(), '', null, '造价评估');
+insert into sys_menu values('6086', '结果列表', '6083', '2', 'result-history',           'standard/result-history/index', '', '', 1, 0, 'M', '0', '0', '', 'system',   'admin', sysdate(), '', null, '造价评估目录');
+insert into sys_menu values('6087', '标准详情', '6083', '2', 'detail/:id',           'standard/detail/index', '', '', 1, 0, 'M', '1', '0', '', 'system',   'admin', sysdate(), '', null, '造价评估目录');
+insert into sys_menu values('6088', '选择标准', '6083', '2', 'choose-standard',           'standard/choose-standard/index', '', '', 1, 0, 'M', '1', '0', '', 'system',   'admin', sysdate(), '', null, '造价评估目录');
+insert into sys_menu values('6089', '结果评估', '6083', '2', 'final-result',           'standard/final-result/index', '', '', 1, 0, 'M', '1', '0', '', 'system',   'admin', sysdate(), '', null, '造价评估目录');
+insert into sys_menu values('6090', '结果详情', '6083', '2', 'result-detail/:id',           'standard/result-detail/index', '', '', 1, 0, 'M', '1', '0', '', 'system',   'admin', sysdate(), '', null, '造价评估目录');
+
+
 insert into sys_menu values('100',  '用户管理', '1',   '1', 'user',       'system/user/index',        '', '', 1, 0, 'C', '0', '0', 'system:user:list',        'user',          'admin', sysdate(), '', null, '用户管理菜单');
 insert into sys_menu values('101',  '角色管理', '1',   '2', 'role',       'system/role/index',        '', '', 1, 0, 'C', '0', '0', 'system:role:list',        'peoples',       'admin', sysdate(), '', null, '角色管理菜单');
 insert into sys_menu values('102',  '菜单管理', '1',   '3', 'menu',       'system/menu/index',        '', '', 1, 0, 'C', '0', '0', 'system:menu:list',        'tree-table',    'admin', sysdate(), '', null, '菜单管理菜单');
@@ -822,3 +834,64 @@ delete from tb_measure_res where project_id=3;
 
 insert into tb_measure_res (project_id, UPF, VAF, DFP, GSC, status, S, CF) VALUES (2, 0, 0, 0, 0, 0, 0, 0);
 insert into tb_measure_res (project_id, UPF, VAF, DFP, GSC, status, S, CF) VALUES (3, 0, 0, 0, 0, 1, 0, 0);
+-- ----------------------------
+-- 21、造价标准表
+-- ----------------------------
+drop table if exists assessment_standard;
+create table assessment_standard (
+                                     std_id              bigint(20)      not null auto_increment    comment '标准ID',
+                                     std_name            varchar(100)    default ''                 comment '标准名称',
+                                     std_type            varchar(50)     default ''                 comment '标准类型（地区标准、团队标准、规定标准）',
+                                     std_status          tinyint(1)      default 1                  comment '标准状态（1启用 0停用）',
+                                     pdr_value           decimal(10,2)   default 0.00              comment '标准PDR取值',
+                                     rsk_factor          decimal(3,1)    default 1.0              comment '风险因子',
+                                     quality_factor      decimal(3,1)    default 1.0              comment '质量因子',
+                                     swf                 decimal(3,1)    default 1.0              comment '软件复杂度因子',
+                                     rdf                 decimal(3,1)    default 1.0              comment '开发复杂度因子',
+                                     conversion_factor   decimal(5,2)    default 21.75            comment '人月折算系数',
+                                     cost_rate           decimal(10,2)   default 10000            comment '软件开发基准人月费率(月工资)',
+                                     dnc                 decimal(10,2)   default 0.00             comment '非人力成本',
+                                     created_by          varchar(64)     default ''               comment '创建者',
+                                     created_at          datetime                                comment '创建时间',
+                                     updated_at          datetime                                comment '更新时间',
+                                     primary key (std_id)
+) engine=innodb auto_increment=1000 comment = '造价标准表';
+
+-- ----------------------------
+-- 初始化-造价标准表数据
+-- ----------------------------
+INSERT INTO assessment_standard
+(std_name, std_type, std_status, pdr_value, rsk_factor, quality_factor, swf, rdf, conversion_factor, dnc, created_by, created_at, updated_at)
+VALUES
+    ('北京地区标准开发规范', '地区标准', 1, 8.5, 1.2, 1.1, 1.2, 1.3, 21.75, 2000.00, 'admin', NOW(), NOW()),
+    ('敏捷开发团队标准', '团队标准', 1, 7.5, 1.0, 1.0, 1.1, 1.2, 21.75, 1500.00, 'admin', NOW(), NOW()),
+    ('企业级应用开发规范', '规定标准', 1, 9.0, 1.4, 1.2, 1.3, 1.4, 21.75, 3000.00, 'admin', NOW(), NOW()),
+    ('移动应用开发标准', '团队标准', 1, 6.5, 1.0, 1.0, 1.0, 1.1, 21.75, 1000.00, 'admin', NOW(), NOW()),
+    ('高可用系统开发标准', '规定标准', 1, 10.0, 1.4, 1.3, 1.4, 1.5, 21.75, 4000.00, 'admin', NOW(), NOW());
+
+-- ----------------------------
+-- 22、评估结果表assessment_results
+-- ----------------------------
+drop table if exists assessment_results;
+create table assessment_results (
+                                    res_id                    bigint(20)      not null auto_increment    comment '评估结果ID',
+                                    project_id                bigint(20)      not null                   comment '关联项目的ID，标识当前评估结果所属的项目',
+                                    std_id                    bigint(20)      not null                   comment '关联评估标准的ID，标识当前评估结果所属的标准',
+                                    project_SDC               decimal(12,2)   default 0.00               comment '项目的开发服务费用',
+                                    project_ESDC              decimal(12,2)   default 0.00               comment '项目调整后的开发服务费用',
+                                    created_at                datetime                                   comment '评估结果记录的创建时间',
+                                    updated_at                datetime                                   comment '最近一次更新评估结果的时间',
+                                    primary key (res_id)
+) engine=innodb auto_increment=1000 comment = '评估结果表';
+
+-- ----------------------------
+-- 初始化-评估结果表数据assessment_results
+-- ----------------------------
+INSERT INTO assessment_results
+(project_id, std_id, project_SDC, project_ESDC, created_at, updated_at)
+VALUES
+    (1001, 1000, 150000.00, 165000.00, NOW(), NOW()),
+    (1002, 1001, 120000.00, 126000.00, NOW(), NOW()),
+    (1003, 1002, 200000.00, 220000.00, NOW(), NOW()),
+    (1004, 1003, 85000.00, 89250.00, NOW(), NOW()),
+    (1005, 1004, 300000.00, 345000.00, NOW(), NOW());

@@ -23,4 +23,11 @@ public interface AccessorService {
     AjaxResult getStatus(Integer projectId);
 
     AjaxResult getProject(Integer projectId);
+
+    float getDFP(Integer projectId);
+
+    AjaxResult getPendingProjects();
+
+    //通过id获得项目名称
+    String getProjectNameById(Integer projectId);
 }
