@@ -34,7 +34,6 @@ public class ProjectDTO {
     private Double quality_cost; // 质量附加成本
     private Double dev_service_cost; // 开发服务费用
     private Double adjusted_dev_service_cost; // 调整后开发服务费用
-    private String res_sugg; // 评估结果的建议说明
     private String created_at; // 评估结果记录的创建时间
 
     public Boolean getReport_status() {
@@ -51,14 +50,6 @@ public class ProjectDTO {
 
     public void setCreated_at(String created_at) {
         this.created_at = created_at;
-    }
-
-    public String getRes_sugg() {
-        return res_sugg;
-    }
-
-    public void setRes_sugg(String res_sugg) {
-        this.res_sugg = res_sugg;
     }
 
     public Double getAdjusted_dev_service_cost() {

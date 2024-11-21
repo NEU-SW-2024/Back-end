@@ -28,7 +28,6 @@
             ar.quality_cost,
             ar.dev_service_cost,
             ar.adjusted_dev_service_cost,
-            ar.res_sugg,
             ar.created_at AS assessment_created_at,
 
             CASE
@@ -39,7 +38,7 @@
         FROM
             sys_project sp
                 LEFT JOIN tb_measure_res tmr ON sp.project_id = tmr.project_id
-                LEFT JOIN assessment_results ar ON sp.project_id = ar.project_id
+                LEFT JOIN assessment_detail_results ar ON sp.project_id = ar.project_id
                 LEFT JOIN project_report_status prs ON sp.project_id = prs.project_id
                 LEFT JOIN sys_user su ON sp.auditor_id = su.user_id
                 LEFT JOIN sys_user sua ON sp.accessor_id = sua.user_id
@@ -84,7 +83,7 @@
         FROM
             sys_project sp
                 LEFT JOIN tb_measure_res tmr ON sp.project_id = tmr.project_id
-                LEFT JOIN assessment_results ar ON sp.project_id = ar.project_id
+                LEFT JOIN assessment_detail_results ar ON sp.project_id = ar.project_id
                 LEFT JOIN project_report_status prs ON sp.project_id = prs.project_id
                 LEFT JOIN sys_user su ON sp.auditor_id = su.user_id
                 LEFT JOIN sys_user sua ON sp.accessor_id = sua.user_id
@@ -129,7 +128,7 @@
         FROM
             sys_project sp
                 LEFT JOIN tb_measure_res tmr ON sp.project_id = tmr.project_id
-                LEFT JOIN assessment_results ar ON sp.project_id = ar.project_id
+                LEFT JOIN assessment_detail_results ar ON sp.project_id = ar.project_id
                 LEFT JOIN project_report_status prs ON sp.project_id = prs.project_id
                 LEFT JOIN sys_user su ON sp.auditor_id = su.user_id
                 LEFT JOIN sys_user sua ON sp.accessor_id = sua.user_id

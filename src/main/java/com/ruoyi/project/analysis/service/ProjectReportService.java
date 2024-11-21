@@ -44,13 +44,13 @@ public class ProjectReportService {
      */
     public List<ProjectDTO> getProjectsByAccessorId(Long accessorId) {
         if (accessorId == null || accessorId <= 0) {
-            throw new IllegalArgumentException("租户ID不能为空或无效！");
+            throw new IllegalArgumentException("评估师ID不能为空或无效！");
         }
 
         List<ProjectDTO> projects = projectMapper.getProjectsByAccessorId(accessorId);
 
         if (projects == null || projects.isEmpty()) {
-            throw new RuntimeException("未找到租户ID为 " + accessorId + " 的项目！");
+            throw new RuntimeException("未找到评估师ID为 " + accessorId + " 的项目！");
         }
 
         return projects;
@@ -64,13 +64,13 @@ public class ProjectReportService {
      */
     public List<ProjectDTO> getProjectsByAuditorId(Long auditorId) {
         if (auditorId == null || auditorId <= 0) {
-            throw new IllegalArgumentException("租户ID不能为空或无效！");
+            throw new IllegalArgumentException("审核员ID不能为空或无效！");
         }
 
         List<ProjectDTO> projects = projectMapper.getProjectsByAuditorId(auditorId);
 
         if (projects == null || projects.isEmpty()) {
-            throw new RuntimeException("未找到租户ID为 " + auditorId + " 的项目！");
+            throw new RuntimeException("未找到审核员ID为 " + auditorId + " 的项目！");
         }
 
         return projects;
