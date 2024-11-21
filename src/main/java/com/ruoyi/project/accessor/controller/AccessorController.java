@@ -1,24 +1,18 @@
 package com.ruoyi.project.accessor.controller;
 
-import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.project.accessor.domain.*;
 import com.ruoyi.project.accessor.service.AccessorService;
-import com.ruoyi.project.system.controller.SysProfileController;
-import com.ruoyi.project.system.domain.SysProject;
-import com.ruoyi.project.system.mapper.SysProjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/accessor")
+@RequestMapping("/dev-api/accessor")
 @Api("评估师")
 public class AccessorController {
 
