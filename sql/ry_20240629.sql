@@ -161,11 +161,10 @@ create table sys_menu (
 -- ----------------------------
 -- 一级菜单
 insert into sys_menu values('1', '系统管理', '0', '1', 'system',           null, '', '', 1, 0, 'M', '0', '0', '', 'system',   'admin', sysdate(), '', null, '系统管理目录');
-insert into sys_menu values('6080', '功能点分析', '0', '2', 'accessor1',         'system/accessor1/index', '', '', 1, 0, 'C', '0', '0', '', '',  'accessor', sysdate(), '', null, '系统监控目录');
-insert into sys_menu values('6081', '测试功能点', '0', '2', 'accessor2',         'system/accessor2/index', '', '', 1, 0, 'C', '1', '0', '', '',  'accessor', sysdate(), '', null, '系统监控目录');
-insert into sys_menu values('6082', '测试功能点2', '0', '2', 'accessor3',         'system/accessor2/AssessedPage', '', '', 1, 0, 'C', '1', '0', '', '',  'accessor', sysdate(), '', null, '系统监控目录');
-
-# insert into sys_menu values('2', '系统监控', '0', '2', 'monitor',          null, '', '', 1, 0, 'M', '0', '0', '', 'monitor',  'admin', sysdate(), '', null, '系统监控目录');
+insert into sys_menu values('6080', '评估项目预览', '0', '2', 'accessor1',         'system/accessor1/index', '', '', 1, 0, 'C', '0', '0', '', '',  'accessor', sysdate(), '', null, '系统监控目录');
+insert into sys_menu values('6081', '功能点计算', '0', '2', 'accessor2',         'system/accessor2/index', '', '', 1, 0, 'C', '1', '0', '', '',  'accessor', sysdate(), '', null, '系统监控目录');
+insert into sys_menu values('6082', '功能点结果展示', '0', '2', 'accessor3',         'system/accessor2/AssessedPage', '', '', 1, 0, 'C', '1', '0', '', '',  'accessor', sysdate(), '', null, '系统监控目录');
+-- insert into sys_menu values('2', '系统监控', '0', '2', 'monitor',          null, '', '', 1, 0, 'M', '0', '0', '', 'monitor',  'admin', sysdate(), '', null, '系统监控目录');
 -- insert into sys_menu values('3', '系统工具', '0', '3', 'tool',             null, '', '', 1, 0, 'M', '0', '0', '', 'tool',     'admin', sysdate(), '', null, '系统工具目录');
 -- insert into sys_menu values('4', '若依官网', '0', '4', 'http://ruoyi.vip', null, '', '', 0, 0, 'M', '0', '0', '', 'guide',    'admin', sysdate(), '', null, '若依官网地址');
 -- 二级菜单
