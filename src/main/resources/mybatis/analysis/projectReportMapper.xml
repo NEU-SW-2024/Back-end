@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruoyi.project.analysis.mapper.ProjectReportMapper">
+
+    <!-- 根据租户id查询项目的基本信息 -->
+    <select id="getProjectsByTenantId" resultMap="ProjectResultMap">
+        SELECT
+            sp.project_id,
+            sp.tenant_id,
+            sp.name AS name,
+            sp.description,
+            sua.nick_name AS accessor,
+            su.nick_name AS auditor,
+            sp.project_status,
+            sp.create_time,
+
+            tmr.UPF,
+            tmr.VAF,
+            tmr.DFP,
+            tmr.GSC,
+            tmr.status AS assessment_status,
+            tmr.S AS adjustment_factor,
+
+            ar.total_cost,
+            ar.labor_cost,
+            ar.risk_cost,
+            ar.quality_cost,
+            ar.dev_service_cost,
+            ar.adjusted_dev_service_cost,
+            ar.res_sugg,
+            ar.created_at AS assessment_created_at,
+
+            CASE
+                WHEN prs.project_id IS NOT NULL THEN TRUE
+                ELSE FALSE
+                END AS report_status
+
+        FROM
+            sys_project sp
+                LEFT JOIN tb_measure_res tmr ON sp.project_id = tmr.project_id
+                LEFT JOIN assessment_results ar ON sp.project_id = ar.project_id
+                LEFT JOIN project_report_status prs ON sp.project_id = prs.project_id
+                LEFT JOIN sys_user su ON sp.auditor_id = su.user_id
+                LEFT JOIN sys_user sua ON sp.accessor_id = sua.user_id
+
+        WHERE
+            sp.tenant_id = #{tenantId}
+    </select>
+
+    <!-- 根据审核员ID查询项目 -->
+    <select id="getProjectsByAuditorId" resultMap="ProjectResultMap">
+        SELECT
+            sp.project_id,
+            sp.tenant_id,
+            sp.name AS name,
+            sp.description,
+            sua.nick_name AS accessor,
+            su.nick_name AS auditor,
+            sp.project_status,
+            sp.create_time,
+
+            tmr.UPF,
+            tmr.VAF,
+            tmr.DFP,
+            tmr.GSC,
+            tmr.status AS assessment_status,
+            tmr.S AS adjustment_factor,
+
+            ar.total_cost,
+            ar.labor_cost,
+            ar.risk_cost,
+            ar.quality_cost,
+            ar.dev_service_cost,
+            ar.adjusted_dev_service_cost,
+            ar.res_sugg,
+            ar.created_at AS assessment_created_at,
+
+            CASE
+                WHEN prs.project_id IS NOT NULL THEN TRUE
+                ELSE FALSE
+                END AS report_status
+
+        FROM
+            sys_project sp
+                LEFT JOIN tb_measure_res tmr ON sp.project_id = tmr.project_id
+                LEFT JOIN assessment_results ar ON sp.project_id = ar.project_id
+                LEFT JOIN project_report_status prs ON sp.project_id = prs.project_id
+                LEFT JOIN sys_user su ON sp.auditor_id = su.user_id
+                LEFT JOIN sys_user sua ON sp.accessor_id = sua.user_id
+
+        WHERE
+            sp.auditor_id = #{auditorId}
+    </select>
+
+    <!-- 根据评估员ID查询项目 -->
+    <select id="getProjectsByAccessorId" resultMap="ProjectResultMap">
+        SELECT
+            sp.project_id,
+            sp.tenant_id,
+            sp.name AS name,
+            sp.description,
+            sua.nick_name AS accessor,
+            su.nick_name AS auditor,
+            sp.project_status,
+            sp.create_time,
+
+            tmr.UPF,
+            tmr.VAF,
+            tmr.DFP,
+            tmr.GSC,
+            tmr.status AS assessment_status,
+            tmr.S AS adjustment_factor,
+
+            ar.total_cost,
+            ar.labor_cost,
+            ar.risk_cost,
+            ar.quality_cost,
+            ar.dev_service_cost,
+            ar.adjusted_dev_service_cost,
+            ar.res_sugg,
+            ar.created_at AS assessment_created_at,
+
+            CASE
+                WHEN prs.project_id IS NOT NULL THEN TRUE
+                ELSE FALSE
+                END AS report_status
+
+        FROM
+            sys_project sp
+                LEFT JOIN tb_measure_res tmr ON sp.project_id = tmr.project_id
+                LEFT JOIN assessment_results ar ON sp.project_id = ar.project_id
+                LEFT JOIN project_report_status prs ON sp.project_id = prs.project_id
+                LEFT JOIN sys_user su ON sp.auditor_id = su.user_id
+                LEFT JOIN sys_user sua ON sp.accessor_id = sua.user_id
+
+        WHERE
+            sp.accessor_id = #{accessorId}
+    </select>
+
+    <!-- 查询功能点 -->
+    <select id="getFeaturesByProjectId" resultType="com.ruoyi.project.analysis.domain.Feature">
+        SELECT
+            tf.feat_name,
+            tf.feat_descr AS comment
+        FROM
+            tb_feat tf
+        WHERE
+            tf.project_id = #{projectId}
+    </select>
+
+
+    <!-- 查询度量信息 -->
+    <select id="getMeasuresByProjectId" resultType="com.ruoyi.project.analysis.domain.Measure">
+        SELECT
+            tm.measure_name,
+            tm.DI
+        FROM
+            tb_measure tm
+        WHERE
+            tm.project_id = #{projectId}
+    </select>
+
+    <!-- 结果映射 -->
+    <resultMap id="ProjectResultMap" type="com.ruoyi.project.analysis.domain.ProjectDTO">
+        <id property="project_id" column="project_id"/>
+        <result property="tenant_id" column="tenant_id"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="accessor" column="accessor"/>
+        <result property="auditor" column="auditor"/>
+        <result property="project_status" column="project_status"/>
+        <result property="create_time" column="create_time"/>
+
+        <result property="UPF" column="UPF"/>
+        <result property="VAF" column="VAF"/>
+        <result property="DFP" column="DFP"/>
+        <result property="GSC" column="GSC"/>
+        <result property="status" column="assessment_status"/>
+        <result property="S" column="adjustment_factor"/>
+
+        <result property="total_cost" column="total_cost"/>
+        <result property="labor_cost" column="labor_cost"/>
+        <result property="risk_cost" column="risk_cost"/>
+        <result property="quality_cost" column="quality_cost"/>
+        <result property="dev_service_cost" column="dev_service_cost"/>
+        <result property="adjusted_dev_service_cost" column="adjusted_dev_service_cost"/>
+        <result property="res_sugg" column="res_sugg"/>
+        <result property="created_at" column="assessment_created_at"/>
+        <result property="report_status" column="report_status"/>
+
+        <!-- 嵌套功能点和度量 -->
+        <collection property="features" ofType="com.example.dto.ProjectDTO.Feature" select="getFeaturesByProjectId" column="project_id"/>
+        <collection property="measures" ofType="com.example.dto.ProjectDTO.Measure" select="getMeasuresByProjectId" column="project_id"/>
+    </resultMap>
+
+</mapper>
