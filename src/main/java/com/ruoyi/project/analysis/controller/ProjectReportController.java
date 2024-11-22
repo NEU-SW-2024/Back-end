@@ -35,18 +35,11 @@ public class ProjectReportController {
         //加一个权限判断，调用不同方法
         try {
             List<ProjectDTO> projects = new ArrayList<>();
-            if(hasRole("ROLE_AUDITOR")){
-                projects = projectService.getProjectsByAuditorId(SecurityUtils.getUserId());
-                for(ProjectDTO project : projects){
-                    System.out.println(project);
-                }
-                return ResponseEntity.ok(projects);
+            projects = projectService.getProjectsByAuditorId(SecurityUtils.getUserId());
+            for(ProjectDTO project : projects){
+                System.out.println(project);
             }
-            else
-            {
-                //返回一个空
-                return ResponseEntity.ok(projects);
-            }
+            return ResponseEntity.ok(projects);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(null);
         } catch (RuntimeException e) {
