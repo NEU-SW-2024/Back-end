@@ -1,5 +1,6 @@
 package com.ruoyi.project.system.controller;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
@@ -62,6 +63,7 @@ public class SysUserController extends BaseController
     {
         startPage();
         List<SysUser> list = userService.selectUserList(user);
+
         return getDataTable(list);
     }
 

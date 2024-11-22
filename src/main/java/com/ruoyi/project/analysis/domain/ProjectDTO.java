@@ -243,7 +243,7 @@ public class ProjectDTO {
                 ", project_status='" + project_status + '\'' +
                 ", create_time='" + create_time + '\'' +
                 ", features=" + features +
-                ", measures=" + measures.toString() +
+                ", measures=" + finalMeasures.toString() +
                 ", UPF=" + UPF +
                 ", VAF=" + VAF +
                 ", DFP=" + DFP +

@@ -76,8 +76,12 @@ public class SysUserServiceImpl implements ISysUserService
     public List<SysUser> selectUserList(SysUser user)
     {
         List<SysUser> list = userMapper.selectUserList(user);
+//        加上用户权限
+        for (SysUser sysUser : list) {
+            sysUser.setRoles(roleMapper.selectRolesByUserName(sysUser.getUserName()));
+        }
 //        判断是不是admin，如果是admin,就返回所有的用户信息
-        if (SecurityUtils.isAdmin(user.getUserId())) {
+        if (SecurityUtils.isAdmin(SecurityUtils.getUserId())) {
             return list;
         }
 //        否则就返回所有由当前用户创建的用户信息和当前用户的信息
