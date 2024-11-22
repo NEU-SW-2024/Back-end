@@ -1,7 +1,7 @@
 package com.ruoyi.project.analysis.domain;
 
 // 内部类：度量表
-public class Measure {
+public class FinalMeasure {
     private String measure_name; // 度量名称
     private int DI; // 度量分数（GSC）
 

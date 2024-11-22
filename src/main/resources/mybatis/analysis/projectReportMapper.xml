@@ -10,6 +10,7 @@
             sp.tenant_id,
             sp.name AS name,
             sp.description,
+            sp.description,
             sua.nick_name AS accessor,
             su.nick_name AS auditor,
             sp.project_status,

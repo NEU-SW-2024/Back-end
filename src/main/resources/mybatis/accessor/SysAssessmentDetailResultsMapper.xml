@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.mapper.SysAssessmentDetailResultsMapper">
+
+    <!-- 结果映射 -->
+    <resultMap id="AssessmentDetailResultsMap" type="com.ruoyi.project.system.domain.SysAssessmentDetailResults">
+        <id property="resId" column="res_id"/>
+        <result property="projectId" column="project_id"/>
+        <result property="stdId" column="std_id"/>
+        <result property="totalCost" column="total_cost"/>
+        <result property="laborCost" column="labor_cost"/>
+        <result property="riskCost" column="risk_cost"/>
+        <result property="qualityCost" column="quality_cost"/>
+        <result property="devServiceCost" column="dev_service_cost"/>
+        <result property="adjustedDevServiceCost" column="adjusted_dev_service_cost"/>
+        <result property="resSugg" column="res_sugg"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <!-- 插入评估细节结果 -->
+    <insert id="insertAssessmentDetailResults" useGeneratedKeys="true" keyProperty="resId">
+        INSERT INTO assessment_detail_results (project_id, std_id, total_cost, labor_cost, risk_cost, quality_cost,
+                                               dev_service_cost, adjusted_dev_service_cost, res_sugg, created_at, updated_at)
+        VALUES (#{projectId}, #{stdId}, #{totalCost}, #{laborCost}, #{riskCost}, #{qualityCost},
+                #{devServiceCost}, #{adjustedDevServiceCost}, #{resSugg}, #{createdAt}, #{updatedAt})
+    </insert>
+
+    <!-- 根据ID查询评估细节结果 -->
+    <select id="selectAssessmentDetailResultsById" resultMap="AssessmentDetailResultsMap">
+        SELECT * FROM assessment_detail_results WHERE res_id = #{resId}
+    </select>
+
+    <!-- 查询所有评估细节结果 -->
+    <select id="selectAllAssessmentDetailResults" resultMap="AssessmentDetailResultsMap">
+        SELECT * FROM assessment_detail_results
+    </select>
+
+    <!-- 更新评估细节结果 -->
+    <update id="updateAssessmentDetailResults">
+        UPDATE assessment_detail_results
+        SET project_id = #{projectId},
+            std_id = #{stdId},
+            total_cost = #{totalCost},
+            labor_cost = #{laborCost},
+            risk_cost = #{riskCost},
+            quality_cost = #{qualityCost},
+            dev_service_cost = #{devServiceCost},
+            adjusted_dev_service_cost = #{adjustedDevServiceCost},
+            res_sugg = #{resSugg},
+            created_at = #{createdAt},
+            updated_at = #{updatedAt}
+        WHERE res_id = #{resId}
+    </update>
+
+    <!-- 根据ID删除评估细节结果 -->
+    <delete id="deleteAssessmentDetailResultsById">
+        DELETE FROM assessment_detail_results WHERE res_id = #{resId}
+    </delete>
+
+</mapper>

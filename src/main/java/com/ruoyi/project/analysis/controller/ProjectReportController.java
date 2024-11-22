@@ -37,12 +37,16 @@ public class ProjectReportController {
             List<ProjectDTO> projects = new ArrayList<>();
             if(hasRole("ROLE_AUDITOR")){
                 projects = projectService.getProjectsByAuditorId(SecurityUtils.getUserId());
-            }else if(hasRole("ROLE_ACCESSOR")){
-                projects = projectService.getProjectsByAccessorId(SecurityUtils.getUserId());
-            }else{
-                projects = projectService.getProjectsByTenantId(SecurityUtils.getUserId());
+                for(ProjectDTO project : projects){
+                    System.out.println(project);
+                }
+                return ResponseEntity.ok(projects);
             }
-            return ResponseEntity.ok(projects);
+            else
+            {
+                //返回一个空
+                return ResponseEntity.ok(projects);
+            }
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(null);
         } catch (RuntimeException e) {

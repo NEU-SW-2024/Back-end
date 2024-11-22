@@ -231,6 +231,33 @@ public class ProjectDTO {
     //我们自己的表
     private Boolean report_status; // 报告生成状态
 
-
-
+    @Override
+    public String toString() {
+        return "ProjectDTO{" +
+                "project_id=" + project_id +
+                ", tenant_id=" + tenant_id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", accessor='" + accessor + '\'' +
+                ", auditor='" + auditor + '\'' +
+                ", project_status='" + project_status + '\'' +
+                ", create_time='" + create_time + '\'' +
+                ", features=" + features +
+                ", measures=" + measures.toString() +
+                ", UPF=" + UPF +
+                ", VAF=" + VAF +
+                ", DFP=" + DFP +
+                ", GSC=" + GSC +
+                ", status='" + status + '\'' +
+                ", S=" + S +
+                ", total_cost=" + total_cost +
+                ", labor_cost=" + labor_cost +
+                ", risk_cost=" + risk_cost +
+                ", quality_cost=" + quality_cost +
+                ", dev_service_cost=" + dev_service_cost +
+                ", adjusted_dev_service_cost=" + adjusted_dev_service_cost +
+                ", created_at='" + created_at + '\'' +
+                ", report_status=" + report_status +
+                '}';
+    }
 }
