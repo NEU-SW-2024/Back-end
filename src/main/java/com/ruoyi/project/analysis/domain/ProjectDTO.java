@@ -17,7 +17,7 @@ public class ProjectDTO {
     private List<Feature> features; // 功能点
 
     //度量表
-    private List<Measure> measures; // 度量表
+    private List<FinalMeasure> finalMeasures; // 度量表
 
     //评估结果表（第二组）
     private int UPF; // 功能点分数总和 (UPF)
@@ -148,12 +148,12 @@ public class ProjectDTO {
         this.UPF = UPF;
     }
 
-    public List<Measure> getMeasures() {
-        return measures;
+    public List<FinalMeasure> getMeasures() {
+        return finalMeasures;
     }
 
-    public void setMeasures(List<Measure> measures) {
-        this.measures = measures;
+    public void setMeasures(List<FinalMeasure> finalMeasures) {
+        this.finalMeasures = finalMeasures;
     }
 
     public List<Feature> getFeatures() {
